@@ -16,7 +16,7 @@
                         throw 'fs-drawer options not set';
                     }
 
-                    $scope.drawerStyle = { right: '-5000px' };
+                    $scope.drawerStyle = {};
                     $scope.sideDrawerStyle = {};
 
                     angular.extend($scope,$scope.options.scope);
