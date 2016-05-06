@@ -1,0 +1,15 @@
+<div resizable r-directions="['left']" class="frame" id="fs-drawer-main" ng-style="drawerStyle">
+    <div layout="row" layout-fill>
+        <div class="actions">
+            <a href ng-click="close()" class="action"><md-icon>close</md-icon></a>
+            <a href ng-click="actionClick(action)" class="action" ng-repeat="action in options.actions" ng-show="actionShow(action)"><md-icon>{{action.icon}}<md-tooltip>{{action.tooltip}}</md-tooltip></md-icon></a>
+        </div>
+
+        <div resizable r-directions="['right']" class="drawer" r-flex="true" ng-style="sideDrawerStyle" id="fs-drawer-side">
+            <div class="wrap" ng-include="options.sideTemplateUrl"></div>            
+        </div>
+        <div flex class="editor">
+            <div class="wrap" ng-include="options.templateUrl"></div>
+        </div>
+    </div>
+</div>

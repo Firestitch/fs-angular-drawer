@@ -1,0 +1,21 @@
+{
+  "name": "fs-angular-drawer", 
+  "description": "",
+  "main": [
+    "dist/drawer.js",
+    "dist/drawer.css"
+  ],
+  "depedencies": {
+    "fs-angular-store": "latest",
+    "angular-resizable": "1.2.0"
+  },
+  "authors": [
+    "Firestitch Inc."
+  ],
+  "license": "MIT",
+  "ignore": [
+    "src",
+    ".gitignore"
+  ],
+  "private": false
+}
