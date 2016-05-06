@@ -5,7 +5,7 @@
     "dist/drawer.js",
     "dist/drawer.css"
   ],
-  "depedencies": {
+  "dependencies": {
     "fs-angular-store": "latest",
     "angular-resizable": "1.2.0"
   },
