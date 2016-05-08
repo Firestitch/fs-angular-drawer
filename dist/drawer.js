@@ -96,6 +96,10 @@
                     });
 
                     $scope.instance = { open: $scope.open };
+
+                    if($scope.options.load) {
+                        $scope.options.load($scope);
+                    }                    
                 }
             };
         });  
