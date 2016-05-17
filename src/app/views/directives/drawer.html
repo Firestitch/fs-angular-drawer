@@ -1,20 +1,20 @@
-<div resizable r-directions="['left']" class="frame" id="fs-drawer-main" ng-style="drawerStyle">
+<div resizable r-directions="['left']" class="drawer" id="fs-pane-main" ng-style="drawerStyle">
     <div layout="row" layout-fill>
         <div class="actions">
             <a href ng-click="closeDrawer()" class="action">
                 <md-icon>close</md-icon>
             </a>
-            <a href ng-click="actionClick(action)" class="action" ng-repeat="action in options.actions" ng-show="actionShow(action)">
+            <a href ng-click="actionClick(action)" class="action {{action.class}}" ng-repeat="action in options.actions" ng-show="actionShow(action, $event)">
                 <md-icon>{{action.icon}}
                     <md-tooltip>{{action.tooltip}}</md-tooltip>
                 </md-icon>
             </a>
         </div>
-        <div resizable r-directions="['right']" class="drawer" r-flex="true" ng-style="sideDrawerStyle" id="fs-drawer-side">
-            <div class="wrap side-template"></div>
+        <div resizable r-directions="['right']" r-flex="true" ng-style="sideDrawerStyle" id="fs-pane-side" class="pane-side">
+            <div class="wrap"></div>
         </div>
-        <div flex class="editor">
-            <div class="wrap main-template"></div>
+        <div flex class="pane-main">
+            <div class="wrap"></div>
         </div>
     </div>
 </div>

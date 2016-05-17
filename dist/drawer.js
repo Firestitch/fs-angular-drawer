@@ -27,13 +27,13 @@
                 }
 
                 $http.get($scope.options.templateUrl).success(function (data) {
-                    var el = angular.element(element[0].querySelector('.main-template')).html(data);
+                    var el = angular.element(element[0].querySelector('.pane-main .wrap')).html(data);
                     $compile(el.contents())($scope);
                 });
 
                 if($scope.options.sideTemplateUrl) {
                     $http.get($scope.options.sideTemplateUrl).success(function (data) {
-                        var el = angular.element(element[0].querySelector('.side-template')).html(data);
+                        var el = angular.element(element[0].querySelector('.pane-side .wrap')).html(data);
                         $compile(el.contents())($scope);
                     });
                 }
@@ -42,21 +42,21 @@
                 $scope.sideDrawerStyle = {};                    
 
                 function hide() {
-                    angular.element(document.querySelector('html')).removeClass('fs-drawer-active');
+                    angular.element(document.querySelector('html')).removeClass('fs-pane-side-active');
                     $scope.drawerStyle.right = '-5000px';
                 }
 
                 function show() {
-                    angular.element(document.querySelector('html')).addClass('fs-drawer-active');
+                    angular.element(document.querySelector('html')).addClass('fs-pane-side-active');
                     $scope.drawerStyle.right = 0;
                 }
 
                 function hideSide() {
-                    angular.element(document.querySelector('.drawer')).css('display','none');
+                    angular.element(document.querySelector('.pane-side')).css('display','none');
                 }
 
                 function showSide() {
-                    angular.element(document.querySelector('.drawer')).css('display','block');
+                    angular.element(document.querySelector('.pane-side')).css('display','block');
                 }
 
                 $scope.closeDrawer = function() {
@@ -67,8 +67,8 @@
                     }
                 }
 
-                $scope.actionClick = function(action) {
-                    action.click($scope);
+                $scope.actionClick = function(action, $event) {
+                    action.click($scope, $event);
                 }
 
                 $scope.actionShow = function(action) {
@@ -102,12 +102,12 @@
 
                 $scope.$on("angular-resizable.resizeEnd", function (event, args) {
                   
-                    if(args.id=='fs-drawer-main') {
+                    if(args.id=='fs-pane-main') {
                         persist.mainWidth = args.width;
                         $scope.drawerStyle.width = args.width + 'px';
                     }
 
-                    if(args.id=='fs-drawer-side') {
+                    if(args.id=='fs-pane-side') {
                         persist.sideWidth = args.width;
                         $scope.sideDrawerStyle.width = args.width + 'px';
                     }
@@ -128,7 +128,7 @@ angular.module('fs-angular-drawer').run(['$templateCache', function($templateCac
   'use strict';
 
   $templateCache.put('views/directives/drawer.html',
-    "<div resizable r-directions=\"['left']\" class=\"frame\" id=\"fs-drawer-main\" ng-style=\"drawerStyle\">\r" +
+    "<div resizable r-directions=\"['left']\" class=\"drawer\" id=\"fs-pane-main\" ng-style=\"drawerStyle\">\r" +
     "\n" +
     "    <div layout=\"row\" layout-fill>\r" +
     "\n" +
@@ -140,7 +140,7 @@ angular.module('fs-angular-drawer').run(['$templateCache', function($templateCac
     "\n" +
     "            </a>\r" +
     "\n" +
-    "            <a href ng-click=\"actionClick(action)\" class=\"action\" ng-repeat=\"action in options.actions\" ng-show=\"actionShow(action)\">\r" +
+    "            <a href ng-click=\"actionClick(action)\" class=\"action {{action.class}}\" ng-repeat=\"action in options.actions\" ng-show=\"actionShow(action, $event)\">\r" +
     "\n" +
     "                <md-icon>{{action.icon}}\r" +
     "\n" +
@@ -152,15 +152,15 @@ angular.module('fs-angular-drawer').run(['$templateCache', function($templateCac
     "\n" +
     "        </div>\r" +
     "\n" +
-    "        <div resizable r-directions=\"['right']\" class=\"drawer\" r-flex=\"true\" ng-style=\"sideDrawerStyle\" id=\"fs-drawer-side\">\r" +
+    "        <div resizable r-directions=\"['right']\" r-flex=\"true\" ng-style=\"sideDrawerStyle\" id=\"fs-pane-side\" class=\"pane-side\">\r" +
     "\n" +
-    "            <div class=\"wrap side-template\"></div>\r" +
+    "            <div class=\"wrap\"></div>\r" +
     "\n" +
     "        </div>\r" +
     "\n" +
-    "        <div flex class=\"editor\">\r" +
+    "        <div flex class=\"pane-main\">\r" +
     "\n" +
-    "            <div class=\"wrap main-template\"></div>\r" +
+    "            <div class=\"wrap\"></div>\r" +
     "\n" +
     "        </div>\r" +
     "\n" +

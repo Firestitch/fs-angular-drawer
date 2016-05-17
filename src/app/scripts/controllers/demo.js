@@ -7,7 +7,7 @@
     $scope.instance = {};
 
     $scope.options = {	templateUrl: 'views/drawer.html',
-                        //sideTemplateUrl: 'views/elementsidedrawer.html',
+                        sideTemplateUrl: 'views/drawerside.html',
                         scope: {
                             variable: $scope.variable
                         },
@@ -25,8 +25,8 @@
                                 show: function($scope) {
                                     return true;
                                 },
-                                click: function($scope) {
-                                    
+                                click: function($scope, event) {
+                                    this.class = 'action-class';
                                 }
                             },
                             {
@@ -46,5 +46,9 @@
     $scope.open = function() {
         $scope.instance.open();
     }
+    
+    $scope.openSide = function() {
+        $scope.instance.showSide();
+    }    
 });
 

@@ -26,13 +26,13 @@
                 }
 
                 $http.get($scope.options.templateUrl).success(function (data) {
-                    var el = angular.element(element[0].querySelector('.main-template')).html(data);
+                    var el = angular.element(element[0].querySelector('.pane-main .wrap')).html(data);
                     $compile(el.contents())($scope);
                 });
 
                 if($scope.options.sideTemplateUrl) {
                     $http.get($scope.options.sideTemplateUrl).success(function (data) {
-                        var el = angular.element(element[0].querySelector('.side-template')).html(data);
+                        var el = angular.element(element[0].querySelector('.pane-side .wrap')).html(data);
                         $compile(el.contents())($scope);
                     });
                 }
@@ -41,21 +41,21 @@
                 $scope.sideDrawerStyle = {};                    
 
                 function hide() {
-                    angular.element(document.querySelector('html')).removeClass('fs-drawer-active');
+                    angular.element(document.querySelector('html')).removeClass('fs-pane-side-active');
                     $scope.drawerStyle.right = '-5000px';
                 }
 
                 function show() {
-                    angular.element(document.querySelector('html')).addClass('fs-drawer-active');
+                    angular.element(document.querySelector('html')).addClass('fs-pane-side-active');
                     $scope.drawerStyle.right = 0;
                 }
 
                 function hideSide() {
-                    angular.element(document.querySelector('.drawer')).css('display','none');
+                    angular.element(document.querySelector('.pane-side')).css('display','none');
                 }
 
                 function showSide() {
-                    angular.element(document.querySelector('.drawer')).css('display','block');
+                    angular.element(document.querySelector('.pane-side')).css('display','block');
                 }
 
                 $scope.closeDrawer = function() {
@@ -66,8 +66,8 @@
                     }
                 }
 
-                $scope.actionClick = function(action) {
-                    action.click($scope);
+                $scope.actionClick = function(action, $event) {
+                    action.click($scope, $event);
                 }
 
                 $scope.actionShow = function(action) {
@@ -101,12 +101,12 @@
 
                 $scope.$on("angular-resizable.resizeEnd", function (event, args) {
                   
-                    if(args.id=='fs-drawer-main') {
+                    if(args.id=='fs-pane-main') {
                         persist.mainWidth = args.width;
                         $scope.drawerStyle.width = args.width + 'px';
                     }
 
-                    if(args.id=='fs-drawer-side') {
+                    if(args.id=='fs-pane-side') {
                         persist.sideWidth = args.width;
                         $scope.sideDrawerStyle.width = args.width + 'px';
                     }
