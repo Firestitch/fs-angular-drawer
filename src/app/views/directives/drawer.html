@@ -1,10 +1,10 @@
 <div resizable r-directions="['left']" class="drawer" id="fs-pane-main" ng-style="drawerStyle">
     <div layout="row" layout-fill>
-        <div class="actions">
-            <a href ng-click="closeDrawer()" class="action">
+        <div class="drawer-actions">
+            <a href ng-click="closeDrawer()" class="drawer-action">
                 <md-icon>close</md-icon>
             </a>
-            <a href ng-click="actionClick(action)" class="action {{action.class}}" ng-repeat="action in options.actions" ng-show="actionShow(action, $event)">
+            <a href ng-click="actionClick(action)" class="drawer-action {{action.class}}" ng-repeat="action in options.actions" ng-show="actionShow(action, $event)">
                 <md-icon>{{action.icon}}
                     <md-tooltip>{{action.tooltip}}</md-tooltip>
                 </md-icon>

@@ -131,19 +131,19 @@ fs-drawer .drawer .rg-left {
     margin-left: 9px;
 }
 
-fs-drawer .drawer .actions .action {
+fs-drawer .drawer .drawer-actions .drawer-action {
   text-decoration: none;
 }
 
-fs-drawer .drawer .actions {
+fs-drawer .drawer .drawer-actions {
     border-right: 1px solid #efefef;
 }
 
-fs-drawer .drawer .actions .selected md-icon {
+fs-drawer .drawer .drawer-actions .selected md-icon {
     background-color: #ddd;
 }
 
-fs-drawer .drawer .actions md-icon {
+fs-drawer .drawer .drawer-actions md-icon {
     display: block;
     padding: 6px 4px 0 4px;
     position: relative;
@@ -153,7 +153,7 @@ fs-drawer .drawer .actions md-icon {
     left: -1px;
 }
 
-fs-drawer .drawer .actions a:first-child md-icon {
+fs-drawer .drawer .drawer-actions a:first-child md-icon {
     margin-top: 7px;
 }
 
@@ -180,10 +180,10 @@ fs-drawer .drawer .pane-side .rg-right {
     margin-right: -24px;
 }
 
-fs-drawer .actions {
+fs-drawer .drawer-actions {
     white-space: nowrap;
 }
 
-fs-drawer .actions .md-button.md-icon-button {
+fs-drawer .drawer-actions .md-button.md-icon-button {
     margin: 0;
 }

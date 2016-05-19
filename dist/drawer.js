@@ -132,15 +132,15 @@ angular.module('fs-angular-drawer').run(['$templateCache', function($templateCac
     "\n" +
     "    <div layout=\"row\" layout-fill>\r" +
     "\n" +
-    "        <div class=\"actions\">\r" +
+    "        <div class=\"drawer-actions\">\r" +
     "\n" +
-    "            <a href ng-click=\"closeDrawer()\" class=\"action\">\r" +
+    "            <a href ng-click=\"closeDrawer()\" class=\"drawer-action\">\r" +
     "\n" +
     "                <md-icon>close</md-icon>\r" +
     "\n" +
     "            </a>\r" +
     "\n" +
-    "            <a href ng-click=\"actionClick(action)\" class=\"action {{action.class}}\" ng-repeat=\"action in options.actions\" ng-show=\"actionShow(action, $event)\">\r" +
+    "            <a href ng-click=\"actionClick(action)\" class=\"drawer-action {{action.class}}\" ng-repeat=\"action in options.actions\" ng-show=\"actionShow(action, $event)\">\r" +
     "\n" +
     "                <md-icon>{{action.icon}}\r" +
     "\n" +
