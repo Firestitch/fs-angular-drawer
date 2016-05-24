@@ -39,7 +39,7 @@
                 }
 
                 $scope.drawerStyle = {};
-                $scope.sideDrawerStyle = {};                    
+                $scope.sideDrawerStyle = {};
 
                 function hide() {
                     angular.element(document.querySelector('html')).removeClass('fs-pane-side-active');
@@ -52,11 +52,18 @@
                 }
 
                 function hideSide() {
+                    angular.element(element).removeClass('fs-drawer-side-open');
                     angular.element(document.querySelector('.pane-side')).css('display','none');
                 }
 
                 function showSide() {
+                    angular.element(element).addClass('fs-drawer-side-open');
                     angular.element(document.querySelector('.pane-side')).css('display','block');
+                }
+
+                function refresh() {
+                    var data = angular.copy($scope.options.actions);
+                    $scope.options.actions = data;
                 }
 
                 $scope.closeDrawer = function() {
@@ -95,7 +102,13 @@
                     }
                 }
 
-                var persist = fsStore.get('drawer-persist',{});
+                var drawerPersist = fsStore.get('drawer-persist',{});
+
+                if(!drawerPersist[$scope.options.name]) {
+                    drawerPersist[$scope.options.name] = {};
+                }
+
+                var persist = drawerPersist[$scope.options.name];
 
                 $scope.drawerStyle.width = persist.mainWidth + 'px';
                 $scope.sideDrawerStyle.width = persist.sideWidth + 'px';
@@ -113,7 +126,10 @@
                     }
                 });
 
-                $scope.instance = { open: $scope.openDrawer, hideSide: hideSide, showSide: showSide };
+                $scope.instance = { open: $scope.openDrawer, 
+                                    hideSide: hideSide, 
+                                    showSide: showSide,
+                                    refresh: refresh };
 
                 if($scope.options.load) {
                     $scope.options.load($scope);
@@ -136,7 +152,11 @@ angular.module('fs-angular-drawer').run(['$templateCache', function($templateCac
     "\n" +
     "            <a href ng-click=\"closeDrawer()\" class=\"drawer-action\">\r" +
     "\n" +
-    "                <md-icon>close</md-icon>\r" +
+    "                <md-icon>close\r" +
+    "\n" +
+    "                <md-tooltip md-direction=\"left\">Close</md-tooltip>\r" +
+    "\n" +
+    "                </md-icon>\r" +
     "\n" +
     "            </a>\r" +
     "\n" +
@@ -144,7 +164,7 @@ angular.module('fs-angular-drawer').run(['$templateCache', function($templateCac
     "\n" +
     "                <md-icon>{{action.icon}}\r" +
     "\n" +
-    "                    <md-tooltip>{{action.tooltip}}</md-tooltip>\r" +
+    "                    <md-tooltip md-direction=\"left\">{{action.tooltip}}</md-tooltip>\r" +
     "\n" +
     "                </md-icon>\r" +
     "\n" +

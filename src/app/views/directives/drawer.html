@@ -2,11 +2,13 @@
     <div layout="row" layout-fill>
         <div class="drawer-actions">
             <a href ng-click="closeDrawer()" class="drawer-action">
-                <md-icon>close</md-icon>
+                <md-icon>close
+                <md-tooltip md-direction="left">Close</md-tooltip>
+                </md-icon>
             </a>
             <a href ng-click="actionClick(action)" class="drawer-action {{action.class}}" ng-repeat="action in options.actions" ng-show="actionShow(action, $event)">
                 <md-icon>{{action.icon}}
-                    <md-tooltip>{{action.tooltip}}</md-tooltip>
+                    <md-tooltip md-direction="left">{{action.tooltip}}</md-tooltip>
                 </md-icon>
             </a>
         </div>

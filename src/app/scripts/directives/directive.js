@@ -38,7 +38,7 @@
                 }
 
                 $scope.drawerStyle = {};
-                $scope.sideDrawerStyle = {};                    
+                $scope.sideDrawerStyle = {};
 
                 function hide() {
                     angular.element(document.querySelector('html')).removeClass('fs-pane-side-active');
@@ -51,11 +51,18 @@
                 }
 
                 function hideSide() {
+                    angular.element(element).removeClass('fs-drawer-side-open');
                     angular.element(document.querySelector('.pane-side')).css('display','none');
                 }
 
                 function showSide() {
+                    angular.element(element).addClass('fs-drawer-side-open');
                     angular.element(document.querySelector('.pane-side')).css('display','block');
+                }
+
+                function refresh() {
+                    var data = angular.copy($scope.options.actions);
+                    $scope.options.actions = data;
                 }
 
                 $scope.closeDrawer = function() {
@@ -94,7 +101,13 @@
                     }
                 }
 
-                var persist = fsStore.get('drawer-persist',{});
+                var drawerPersist = fsStore.get('drawer-persist',{});
+
+                if(!drawerPersist[$scope.options.name]) {
+                    drawerPersist[$scope.options.name] = {};
+                }
+
+                var persist = drawerPersist[$scope.options.name];
 
                 $scope.drawerStyle.width = persist.mainWidth + 'px';
                 $scope.sideDrawerStyle.width = persist.sideWidth + 'px';
@@ -112,7 +125,10 @@
                     }
                 });
 
-                $scope.instance = { open: $scope.openDrawer, hideSide: hideSide, showSide: showSide };
+                $scope.instance = { open: $scope.openDrawer, 
+                                    hideSide: hideSide, 
+                                    showSide: showSide,
+                                    refresh: refresh };
 
                 if($scope.options.load) {
                     $scope.options.load($scope);

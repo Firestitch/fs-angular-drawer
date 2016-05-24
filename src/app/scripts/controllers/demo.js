@@ -4,7 +4,9 @@
 angular.module('app')
   .controller('DemoCtrl', function ($scope) {
 
+    var showAction = false;
     $scope.instance = {};
+    $scope.action = false;
 
     $scope.options = {	templateUrl: 'views/drawer.html',
                         sideTemplateUrl: 'views/drawerside.html',
@@ -23,7 +25,7 @@
                                 icon: 'toc',
                                 tooltip: 'Properties',
                                 show: function($scope) {
-                                    return true;
+                                    return showAction;
                                 },
                                 click: function($scope, event) {
                                     this.class = 'action-class';
@@ -41,8 +43,15 @@
                         controller: function($scope) {
 
                         }};
+   
+    $scope.toogleAction = function() {
+        showAction = !showAction;
+    }
 
-    
+    $scope.refresh = function() {
+        $scope.instance.refresh();
+    }  
+
     $scope.open = function() {
         $scope.instance.open();
     }
