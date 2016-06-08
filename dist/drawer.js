@@ -41,22 +41,22 @@
                 $scope.drawerStyle = {};
                 $scope.sideDrawerStyle = {};
 
-                function hide() {
+                function close() {
                     angular.element(document.querySelector('html')).removeClass('fs-pane-side-active');
                     $scope.drawerStyle.right = '-5000px';
                 }
 
-                function show() {
+                function open() {
                     angular.element(document.querySelector('html')).addClass('fs-pane-side-active');
                     $scope.drawerStyle.right = 0;
                 }
 
-                function hideSide() {
+                function closeSide() {
                     angular.element(element).removeClass('fs-drawer-side-open');
                     angular.element(document.querySelector('.pane-side')).css('display','none');
                 }
 
-                function showSide() {
+                function openSide() {
                     angular.element(element).addClass('fs-drawer-side-open');
                     angular.element(document.querySelector('.pane-side')).css('display','block');
                 }
@@ -67,7 +67,7 @@
                 }
 
                 $scope.closeDrawer = function() {
-                    hide();
+                    close();
                     
                     if($scope.options.close) {
                       $scope.options.close();
@@ -96,9 +96,9 @@
                         });
 
                         $scope.options.open.apply(this,args)
-                        show();
+                        open();
                     } else {
-                        show();
+                        open();
                     }
                 }
 
@@ -127,8 +127,9 @@
                 });
 
                 $scope.instance = { open: $scope.openDrawer, 
-                                    hideSide: hideSide, 
-                                    showSide: showSide,
+                                    close: $scope.closeDrawer, 
+                                    closeSide: closeSide, 
+                                    openSide: openSide,
                                     refresh: refresh };
 
                 if($scope.options.load) {

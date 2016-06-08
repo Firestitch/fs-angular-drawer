@@ -57,7 +57,7 @@
     }
     
     $scope.openSide = function() {
-        $scope.instance.showSide();
+        $scope.instance.openSide();
     }    
 });
 
