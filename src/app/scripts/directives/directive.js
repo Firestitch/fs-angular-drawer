@@ -2,7 +2,7 @@
     'use strict';
 
     angular.module('fs-angular-drawer',['fs-angular-store','angularResizable'])
-    .directive('fsDrawer', function(fsStore, $http, $compile) {
+    .directive('fsDrawer', function(fsStore, $http, $compile, $q) {
         return {
             restrict: 'E',
             templateUrl: 'views/directives/drawer.html',
@@ -66,12 +66,24 @@
                 }
 
                 $scope.closeDrawer = function() {
-                    close();
-                    
-                    if($scope.options.close) {
-                      $scope.options.close();
-                    }
+                    $q(function(resolve,reject) {
+
+                        var result = null;
+                        if($scope.options.close) {
+                            result = $scope.options.close($scope);
+                        }
+
+                        if(result && angular.isFunction(result.then)) {
+                            result.then(resolve,reject);
+                        } else 
+                            resolve();
+
+                    })
+                    .then(function() {
+                        close();
+                    });
                 }
+
 
                 $scope.actionClick = function(action, $event) {
                     action.click($scope, $event);
