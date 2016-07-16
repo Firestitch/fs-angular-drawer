@@ -3,7 +3,7 @@
     'use strict';
 
     angular.module('fs-angular-drawer',['fs-angular-store','angularResizable'])
-    .directive('fsDrawer', function(fsStore, $http, $compile, $q) {
+    .directive('fsDrawer', function(fsStore, $http, $compile, $q, $interval) {
         return {
             restrict: 'E',
             templateUrl: 'views/directives/drawer.html',
@@ -21,6 +21,9 @@
             },
 
             link: function($scope, element, attrs) {
+
+                var interval;
+                var mousedown = false;
 
                 if(!$scope.options) {
                     throw 'fs-drawer options not set';
@@ -46,9 +49,30 @@
                     $scope.drawerStyle.right = '-5000px';
                 }
 
+                var eventMousedown = function() { mousedown = true; };
+                var eventMouseup = function() { mousedown = false; };
+
+                window.addEventListener('mousedown',eventMousedown, true);
+                window.addEventListener('mouseup',eventMouseup, true);
+
+                $scope.$on('$destroy',function() {
+                    window.removeEventListener('mousedown',eventMousedown);
+                    window.removeEventListener('mouseup',eventMouseup);
+                    $interval.cancel(interval);
+                });
+
                 function open() {
                     angular.element(document.querySelector('html')).addClass('fs-pane-side-active');
                     $scope.drawerStyle.right = 0;
+
+                    interval = $interval(function() {
+                        var main = element[0].querySelector('#fs-pane-main');
+
+                        if(!mousedown && main.offsetWidth>window.innerWidth) {
+                            angular.element(main).css('width',window.innerWidth + 'px');
+                        }
+
+                    },300);
                 }
 
                 function closeSide() {
@@ -138,11 +162,12 @@
                     }
                 });
 
-                $scope.instance = { open: $scope.openDrawer, 
+                angular.extend($scope.instance,
+                                {   open: $scope.openDrawer, 
                                     close: $scope.closeDrawer, 
                                     closeSide: closeSide, 
                                     openSide: openSide,
-                                    refresh: refresh };
+                                    refresh: refresh });
 
                 if($scope.options.load) {
                     $scope.options.load($scope);
@@ -200,6 +225,10 @@ angular.module('fs-angular-drawer').run(['$templateCache', function($templateCac
     "    </div>\r" +
     "\n" +
     "</div>\r" +
+    "\n" +
+    "\r" +
+    "\n" +
+    "<a href=\"#/404\">404</a>\r" +
     "\n"
   );
 

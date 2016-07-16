@@ -21,8 +21,8 @@ angular
     })
 
     .state('404', {
-        templateUrl: 'views/404.html',
-        controller: 'DemoCtrl'
+        url: '/404',
+        templateUrl: 'views/404.html'
     });
 
 })
