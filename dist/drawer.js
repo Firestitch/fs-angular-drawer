@@ -225,10 +225,6 @@ angular.module('fs-angular-drawer').run(['$templateCache', function($templateCac
     "    </div>\r" +
     "\n" +
     "</div>\r" +
-    "\n" +
-    "\r" +
-    "\n" +
-    "<a href=\"#/404\">404</a>\r" +
     "\n"
   );
 
