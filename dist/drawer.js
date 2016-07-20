@@ -30,13 +30,13 @@
                 }
 
                 $http.get($scope.options.templateUrl).success(function (data) {
-                    var el = angular.element(element[0].querySelector('.pane-main .wrap')).html(data);
+                    var el = angular.element(element[0].querySelector('.pane-main .fs-drawer-wrap')).html(data);
                     $compile(el.contents())($scope);
                 });
 
                 if($scope.options.sideTemplateUrl) {
                     $http.get($scope.options.sideTemplateUrl).success(function (data) {
-                        var el = angular.element(element[0].querySelector('.pane-side .wrap')).html(data);
+                        var el = angular.element(element[0].querySelector('.pane-side .fs-drawer-wrap')).html(data);
                         $compile(el.contents())($scope);
                     });
                 }
@@ -182,50 +182,28 @@ angular.module('fs-angular-drawer').run(['$templateCache', function($templateCac
   'use strict';
 
   $templateCache.put('views/directives/drawer.html',
-    "<div resizable r-directions=\"['left']\" class=\"drawer\" id=\"fs-pane-main\" ng-style=\"drawerStyle\">\r" +
-    "\n" +
-    "    <div layout=\"row\" layout-fill>\r" +
-    "\n" +
-    "        <div class=\"drawer-actions\">\r" +
-    "\n" +
-    "            <a href ng-click=\"closeDrawer()\" class=\"drawer-action\">\r" +
-    "\n" +
-    "                <md-icon>close\r" +
-    "\n" +
-    "                <md-tooltip md-direction=\"left\">Close</md-tooltip>\r" +
-    "\n" +
-    "                </md-icon>\r" +
-    "\n" +
-    "            </a>\r" +
-    "\n" +
-    "            <a href ng-click=\"actionClick(action)\" class=\"drawer-action {{action.class}}\" ng-repeat=\"action in options.actions\" ng-show=\"actionShow(action, $event)\">\r" +
-    "\n" +
-    "                <md-icon>{{action.icon}}\r" +
-    "\n" +
-    "                    <md-tooltip md-direction=\"left\">{{action.tooltip}}</md-tooltip>\r" +
-    "\n" +
-    "                </md-icon>\r" +
-    "\n" +
-    "            </a>\r" +
-    "\n" +
-    "        </div>\r" +
-    "\n" +
-    "        <div resizable r-directions=\"['right']\" r-flex=\"true\" ng-style=\"sideDrawerStyle\" id=\"fs-pane-side\" class=\"pane-side\">\r" +
-    "\n" +
-    "            <div class=\"wrap\"></div>\r" +
-    "\n" +
-    "        </div>\r" +
-    "\n" +
-    "        <div flex class=\"pane-main\">\r" +
-    "\n" +
-    "            <div class=\"wrap\"></div>\r" +
-    "\n" +
-    "        </div>\r" +
-    "\n" +
-    "    </div>\r" +
-    "\n" +
-    "</div>\r" +
-    "\n"
+    "<div resizable r-directions=\"['left']\" class=\"drawer\" id=\"fs-pane-main\" ng-style=\"drawerStyle\">\n" +
+    "    <div layout=\"row\" layout-fill>\n" +
+    "        <div class=\"drawer-actions\">\n" +
+    "            <a href ng-click=\"closeDrawer()\" class=\"drawer-action\">\n" +
+    "                <md-icon>close\n" +
+    "                <md-tooltip md-direction=\"left\">Close</md-tooltip>\n" +
+    "                </md-icon>\n" +
+    "            </a>\n" +
+    "            <a href ng-click=\"actionClick(action)\" class=\"drawer-action {{action.class}}\" ng-repeat=\"action in options.actions\" ng-show=\"actionShow(action, $event)\">\n" +
+    "                <md-icon>{{action.icon}}\n" +
+    "                    <md-tooltip md-direction=\"left\">{{action.tooltip}}</md-tooltip>\n" +
+    "                </md-icon>\n" +
+    "            </a>\n" +
+    "        </div>\n" +
+    "        <div resizable r-directions=\"['right']\" r-flex=\"true\" ng-style=\"sideDrawerStyle\" id=\"fs-pane-side\" class=\"pane-side\">\n" +
+    "            <div class=\"fs-drawer-wrap\"></div>\n" +
+    "        </div>\n" +
+    "        <div flex class=\"pane-main\">\n" +
+    "            <div class=\"fs-drawer-wrap\"></div>\n" +
+    "        </div>\n" +
+    "    </div>\n" +
+    "</div>\n"
   );
 
 }]);

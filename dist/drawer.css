@@ -151,7 +151,7 @@ fs-drawer .drawer .drawer-actions a:first-child md-icon {
     margin-top: 7px;
 }
 
-fs-drawer .drawer .wrap,
+fs-drawer .drawer .fs-drawer-wrap,
 fs-drawer .drawer .pane-side,
 fs-drawer .drawer .pane-main {
     height: 100%;
@@ -161,7 +161,7 @@ fs-drawer .drawer .pane-main {
     min-width: 350px;
 }
 
-fs-drawer .drawer .wrap {
+fs-drawer .drawer .fs-drawer-wrap {
     overflow-y: auto;
     padding: 13px;
 }
@@ -175,7 +175,7 @@ fs-drawer .drawer .pane-side {
 }
 
 fs-drawer.fs-drawer-side-open .drawer {
-    min-width: 735px;
+    min-width: 735pspecpx;
 }
 
 fs-drawer .drawer .pane-side .rg-right {
