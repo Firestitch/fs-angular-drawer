@@ -30,13 +30,13 @@
                 }
 
                 $http.get($scope.options.templateUrl).success(function (data) {
-                    var el = angular.element(element[0].querySelector('.pane-main .wrap')).html(data);
+                    var el = angular.element(element[0].querySelector('.pane-main .fs-drawer-wrap')).html(data);
                     $compile(el.contents())($scope);
                 });
 
                 if($scope.options.sideTemplateUrl) {
                     $http.get($scope.options.sideTemplateUrl).success(function (data) {
-                        var el = angular.element(element[0].querySelector('.pane-side .wrap')).html(data);
+                        var el = angular.element(element[0].querySelector('.pane-side .fs-drawer-wrap')).html(data);
                         $compile(el.contents())($scope);
                     });
                 }
@@ -212,13 +212,13 @@ angular.module('fs-angular-drawer').run(['$templateCache', function($templateCac
     "\n" +
     "        <div resizable r-directions=\"['right']\" r-flex=\"true\" ng-style=\"sideDrawerStyle\" id=\"fs-pane-side\" class=\"pane-side {{options.sideClass}}\">\r" +
     "\n" +
-    "            <div class=\"wrap\"></div>\r" +
+    "            <div class=\"fs-drawer-wrap\"></div>\r" +
     "\n" +
     "        </div>\r" +
     "\n" +
     "        <div flex class=\"pane-main {{options.mainClass}}\">\r" +
     "\n" +
-    "            <div class=\"wrap\"></div>\r" +
+    "            <div class=\"fs-drawer-wrap\"></div>\r" +
     "\n" +
     "        </div>\r" +
     "\n" +

@@ -29,13 +29,13 @@
                 }
 
                 $http.get($scope.options.templateUrl).success(function (data) {
-                    var el = angular.element(element[0].querySelector('.pane-main .wrap')).html(data);
+                    var el = angular.element(element[0].querySelector('.pane-main .fs-drawer-wrap')).html(data);
                     $compile(el.contents())($scope);
                 });
 
                 if($scope.options.sideTemplateUrl) {
                     $http.get($scope.options.sideTemplateUrl).success(function (data) {
-                        var el = angular.element(element[0].querySelector('.pane-side .wrap')).html(data);
+                        var el = angular.element(element[0].querySelector('.pane-side .fs-drawer-wrap')).html(data);
                         $compile(el.contents())($scope);
                     });
                 }
