@@ -32,14 +32,14 @@
                 $scope.sideClass = {};
                 $scope.mainClass = {};
 
-                if($scope.options.sideClass) {
-                    $scope.sideClass[$scope.options.sideClass] = true;
-                }
+                $scope.$watch('options.sideClass',function(value) {
+                    $scope.sideClass[$scope.options.sideClass] = !!value;
+                });
 
-                if($scope.options.mainClass) {
-                    $scope.mainClass[$scope.options.mainClass] = true;
-                }
-                
+                $scope.$watch('options.mainClass',function(value) {
+                    $scope.mainClass[$scope.options.mainClass] = !!value;
+                });
+
                 $http.get($scope.options.templateUrl).success(function (data) {
                     var el = angular.element(element[0].querySelector('.pane-main .fs-drawer-wrap')).html(data);
                     $compile(el.contents())($scope);
