@@ -12,10 +12,10 @@
                 </md-icon>
             </a>
         </div>
-        <div resizable r-directions="['right']" r-flex="true" ng-style="sideDrawerStyle" id="fs-pane-side" class="pane-side">
+        <div resizable r-directions="['right']" r-flex="true" ng-style="sideDrawerStyle" id="fs-pane-side" class="pane-side {{options.sideClass}}">
             <div class="wrap"></div>
         </div>
-        <div flex class="pane-main">
+        <div flex class="pane-main {{options.mainClass}}">
             <div class="wrap"></div>
         </div>
     </div>

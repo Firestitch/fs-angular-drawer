@@ -210,13 +210,13 @@ angular.module('fs-angular-drawer').run(['$templateCache', function($templateCac
     "\n" +
     "        </div>\r" +
     "\n" +
-    "        <div resizable r-directions=\"['right']\" r-flex=\"true\" ng-style=\"sideDrawerStyle\" id=\"fs-pane-side\" class=\"pane-side\">\r" +
+    "        <div resizable r-directions=\"['right']\" r-flex=\"true\" ng-style=\"sideDrawerStyle\" id=\"fs-pane-side\" class=\"pane-side {{options.sideClass}}\">\r" +
     "\n" +
     "            <div class=\"wrap\"></div>\r" +
     "\n" +
     "        </div>\r" +
     "\n" +
-    "        <div flex class=\"pane-main\">\r" +
+    "        <div flex class=\"pane-main {{options.mainClass}}\">\r" +
     "\n" +
     "            <div class=\"wrap\"></div>\r" +
     "\n" +
