@@ -39,6 +39,8 @@
                                 }
                             },
                         ],
+                        mainClass: 'mainClass',
+                        sideClass: 'sideClass',
 
                         controller: function($scope) {
 

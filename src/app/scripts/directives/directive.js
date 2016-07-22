@@ -28,6 +28,18 @@
                     throw 'fs-drawer options not set';
                 }
 
+
+                $scope.sideClass = {};
+                $scope.mainClass = {};
+
+                if($scope.options.sideClass) {
+                    $scope.sideClass[$scope.options.sideClass] = true;
+                }
+
+                if($scope.options.mainClass) {
+                    $scope.mainClass[$scope.options.mainClass] = true;
+                }
+                
                 $http.get($scope.options.templateUrl).success(function (data) {
                     var el = angular.element(element[0].querySelector('.pane-main .fs-drawer-wrap')).html(data);
                     $compile(el.contents())($scope);
