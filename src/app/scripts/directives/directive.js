@@ -1,14 +1,6 @@
 (function () {
     'use strict';
 
-    /**
-      * @ngdoc directive
-      * @name fs.directives:fs-drawer
-      * @restrict E
-      * @param {object} fs-options Options to configure the drawer.
-      * @param {object} fs-instance Instance reference variable.
-      */
-
     angular.module('fs-angular-drawer',['fs-angular-store','angularResizable'])
     .directive('fsDrawer', function(fsStore, $http, $compile, $q, $interval,$controller) {
         return {

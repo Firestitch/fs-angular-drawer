@@ -2,14 +2,6 @@
 (function () {
     'use strict';
 
-    /**
-      * @ngdoc directive
-      * @name fs.directives:fs-drawer
-      * @restrict E
-      * @param {object} fs-options Options to configure the drawer.
-      * @param {object} fs-instance Instance reference variable.
-      */
-
     angular.module('fs-angular-drawer',['fs-angular-store','angularResizable'])
     .directive('fsDrawer', function(fsStore, $http, $compile, $q, $interval,$controller) {
         return {
@@ -238,6 +230,7 @@
          *               <li><label>tooltip</label>Label tooltip</li>
          *               <li><label>click</label>The function fired when the action is clicked. $scope is passed as the first parameter</li>
          *               <li><label>show</label>A function that is used to test the visibility of the action</li>
+         *               <li><label>class</label>The class that is assigned to the action</li>
          *          </ul>
 		 * @example
 		 * <pre>
