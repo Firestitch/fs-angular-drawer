@@ -2,7 +2,7 @@
 
 
 angular.module('app')
-  .controller('DemoCtrl', function ($scope) {
+  .controller('DemoCtrl', function ($scope, fsDrawer) {
 
     var showAction = false;
     $scope.instance = {};
@@ -10,6 +10,7 @@
 
     $scope.options = {	templateUrl: 'views/drawer.html',
                         sideTemplateUrl: 'views/drawerside.html',
+                        controller: 'DrawerCtrl',
                         scope: {
                             variable: $scope.variable
                         },
@@ -18,7 +19,6 @@
                                 icon: 'share',
                                 tooltip: 'Related',
                                 click: function($scope) {
-                                    
                                 }
                             },
                             {
@@ -40,11 +40,9 @@
                             },
                         ],
                         mainClass: 'mainClass',
-                        sideClass: 'sideClass',
+                        sideClass: 'sideClass' };
 
-                        controller: function($scope) {
-
-                        }};
+    $scope.instance = fsDrawer.create($scope.options);
    
     $scope.toogleAction = function() {
         showAction = !showAction;
@@ -60,6 +58,18 @@
     
     $scope.openSide = function() {
         $scope.instance.openSide();
-    }    
+    }
+
+    $scope.close = function() {
+        $scope.instance.close();
+    }
+    
+    $scope.closeSide = function() {
+        $scope.instance.closeSide();
+    }
+})
+.controller('DrawerCtrl',function($scope) {
+
+    $scope.content = 'Content from the DrawerCtrl';
 });
 

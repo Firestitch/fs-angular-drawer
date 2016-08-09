@@ -1,8 +1,16 @@
 (function () {
     'use strict';
 
+    /**
+      * @ngdoc directive
+      * @name fs.directives:fs-drawer
+      * @restrict E
+      * @param {object} fs-options Options to configure the drawer.
+      * @param {object} fs-instance Instance reference variable.
+      */
+
     angular.module('fs-angular-drawer',['fs-angular-store','angularResizable'])
-    .directive('fsDrawer', function(fsStore, $http, $compile, $q, $interval) {
+    .directive('fsDrawer', function(fsStore, $http, $compile, $q, $interval,$controller) {
         return {
             restrict: 'E',
             templateUrl: 'views/directives/drawer.html',
@@ -15,7 +23,14 @@
                 angular.extend($scope,$scope.options.scope);
 
                 if($scope.options.controller) {
-                    $scope.options.controller($scope);
+
+                    if(typeof $scope.options.controller === 'string') {
+                        $controller($scope.options.controller,{ $scope : $scope });
+                    }
+
+                    if(typeof $scope.options.controller === 'function') {
+                        $scope.options.controller($scope);
+                    }
                 }
             },
 
@@ -27,7 +42,6 @@
                 if(!$scope.options) {
                     throw 'fs-drawer options not set';
                 }
-
 
                 $scope.sideClass = {};
                 $scope.mainClass = {};
