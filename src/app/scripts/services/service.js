@@ -33,6 +33,7 @@
          *               <li><label>tooltip</label>Label tooltip</li>
          *               <li><label>click</label>The function fired when the action is clicked. $scope is passed as the first parameter</li>
          *               <li><label>show</label>A function that is used to test the visibility of the action</li>
+         *               <li><label>class</label>The class that is assigned to the action</li>
          *          </ul>
 		 * @example
 		 * <pre>
