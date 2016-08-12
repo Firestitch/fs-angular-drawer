@@ -1,8 +1,16 @@
 (function () {
     'use strict';
 
+    /**
+      * @ngdoc directive
+      * @name fs.directives:fs-drawer
+      * @restrict E
+      * @param {object} fs-options Options to configure the drawer.
+      * @param {object} fs-instance Instance reference variable.
+      */
+
     angular.module('fs-angular-drawer',['fs-angular-store','angularResizable'])
-    .directive('fsDrawer', function(fsStore, $http, $compile, $q, $interval,$controller) {
+    .directive('fsDrawer', function(fsStore, $http, $compile, $q, $interval, $controller) {
         return {
             restrict: 'E',
             templateUrl: 'views/directives/drawer.html',
@@ -11,6 +19,73 @@
                 instance: '=fsInstance'
             },
             controller: function($scope) {
+
+                $scope.openDrawer = function() { 
+                    
+                    if($scope.options.open) {
+
+                        var args = [$scope];
+                        angular.forEach(arguments,function(argument) {
+                            args.push(argument);
+                        });
+
+                        $scope.options.open.apply(this,args);
+                        open();
+                    } else {
+                        open();
+                    }
+                }
+
+                $scope.closeDrawer =function() {
+                    $q(function(resolve,reject) {
+
+                        var result = null;
+                        if($scope.options.close) {
+                            result = $scope.options.close($scope);
+                        }
+
+                        if(result && angular.isFunction(result.then)) {
+                            result.then(resolve,reject);
+                        } else 
+                            resolve();
+
+                    })
+                    .then(function() {
+                        close();
+                    });
+                }
+
+                function closeSide() {
+                    angular.element($scope.element).removeClass('fs-drawer-side-open');
+                    angular.element(document.querySelector('.pane-side')).css('display','none');
+                }
+
+                function openSide() {
+                    angular.element($scope.element).addClass('fs-drawer-side-open');
+                    angular.element(document.querySelector('.pane-side')).css('display','block');
+                }
+
+                function refresh() {
+                    var data = angular.copy($scope.options.actions);
+                    $scope.options.actions = data;
+                }                
+
+                function open() {
+                    angular.element(document.querySelector('html')).addClass('fs-pane-side-active');
+                    $scope.drawerStyle.right = 0;
+                }
+
+                function close() {
+                    angular.element(document.querySelector('html')).removeClass('fs-pane-side-active');
+                    $scope.drawerStyle.right = '-5000px';
+                }                
+
+                angular.extend($scope.instance,
+                                {   open: $scope.openDrawer, 
+                                    close: $scope.closeDrawer, 
+                                    closeSide: closeSide, 
+                                    openSide: openSide,
+                                    refresh: refresh });
 
                 angular.extend($scope,$scope.options.scope);
 
@@ -28,7 +103,6 @@
 
             link: function($scope, element, attrs) {
 
-                var interval;
                 var mousedown = false;
 
                 if(!$scope.options) {
@@ -37,6 +111,17 @@
 
                 $scope.sideClass = {};
                 $scope.mainClass = {};
+                $scope.element = element;
+
+
+                var interval = $interval(function() {
+                    var main = element[0].querySelector('#fs-pane-main');
+
+                    if(!mousedown && main.offsetWidth>window.innerWidth) {
+                        angular.element(main).css('width',window.innerWidth + 'px');
+                    }
+
+                },300);
 
                 $scope.$watch('options.sideClass',function(value) {
                     $scope.sideClass[$scope.options.sideClass] = !!value;
@@ -61,11 +146,6 @@
                 $scope.drawerStyle = {};
                 $scope.sideDrawerStyle = {};
 
-                function close() {
-                    angular.element(document.querySelector('html')).removeClass('fs-pane-side-active');
-                    $scope.drawerStyle.right = '-5000px';
-                }
-
                 var eventMousedown = function() { mousedown = true; };
                 var eventMouseup = function() { mousedown = false; };
 
@@ -78,55 +158,6 @@
                     $interval.cancel(interval);
                 });
 
-                function open() {
-                    angular.element(document.querySelector('html')).addClass('fs-pane-side-active');
-                    $scope.drawerStyle.right = 0;
-
-                    interval = $interval(function() {
-                        var main = element[0].querySelector('#fs-pane-main');
-
-                        if(!mousedown && main.offsetWidth>window.innerWidth) {
-                            angular.element(main).css('width',window.innerWidth + 'px');
-                        }
-
-                    },300);
-                }
-
-                function closeSide() {
-                    angular.element(element).removeClass('fs-drawer-side-open');
-                    angular.element(document.querySelector('.pane-side')).css('display','none');
-                }
-
-                function openSide() {
-                    angular.element(element).addClass('fs-drawer-side-open');
-                    angular.element(document.querySelector('.pane-side')).css('display','block');
-                }
-
-                function refresh() {
-                    var data = angular.copy($scope.options.actions);
-                    $scope.options.actions = data;
-                }
-
-                $scope.closeDrawer = function() {
-                    $q(function(resolve,reject) {
-
-                        var result = null;
-                        if($scope.options.close) {
-                            result = $scope.options.close($scope);
-                        }
-
-                        if(result && angular.isFunction(result.then)) {
-                            result.then(resolve,reject);
-                        } else 
-                            resolve();
-
-                    })
-                    .then(function() {
-                        close();
-                    });
-                }
-
-
                 $scope.actionClick = function(action, $event) {
                     action.click($scope, $event);
                 }
@@ -137,22 +168,6 @@
                     }
 
                     return true;
-                }
-                
-                $scope.openDrawer = function() { 
-                    
-                    if($scope.options.open) {
-
-                        var args = [$scope];
-                        angular.forEach(arguments,function(argument) {
-                            args.push(argument);
-                        });
-
-                        $scope.options.open.apply(this,args)
-                        open();
-                    } else {
-                        open();
-                    }
                 }
 
                 var drawerPersist = fsStore.get('drawer-persist',{});
@@ -178,13 +193,6 @@
                         $scope.sideDrawerStyle.width = args.width + 'px';
                     }
                 });
-
-                angular.extend($scope.instance,
-                                {   open: $scope.openDrawer, 
-                                    close: $scope.closeDrawer, 
-                                    closeSide: closeSide, 
-                                    openSide: openSide,
-                                    refresh: refresh });
 
                 if($scope.options.load) {
                     $scope.options.load($scope);

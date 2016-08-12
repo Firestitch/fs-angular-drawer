@@ -2,8 +2,16 @@
 (function () {
     'use strict';
 
+    /**
+      * @ngdoc directive
+      * @name fs.directives:fs-drawer
+      * @restrict E
+      * @param {object} fs-options Options to configure the drawer.
+      * @param {object} fs-instance Instance reference variable.
+      */
+
     angular.module('fs-angular-drawer',['fs-angular-store','angularResizable'])
-    .directive('fsDrawer', function(fsStore, $http, $compile, $q, $interval,$controller) {
+    .directive('fsDrawer', function(fsStore, $http, $compile, $q, $interval, $controller) {
         return {
             restrict: 'E',
             templateUrl: 'views/directives/drawer.html',
@@ -12,6 +20,73 @@
                 instance: '=fsInstance'
             },
             controller: function($scope) {
+
+                $scope.openDrawer = function() { 
+                    
+                    if($scope.options.open) {
+
+                        var args = [$scope];
+                        angular.forEach(arguments,function(argument) {
+                            args.push(argument);
+                        });
+
+                        $scope.options.open.apply(this,args);
+                        open();
+                    } else {
+                        open();
+                    }
+                }
+
+                $scope.closeDrawer =function() {
+                    $q(function(resolve,reject) {
+
+                        var result = null;
+                        if($scope.options.close) {
+                            result = $scope.options.close($scope);
+                        }
+
+                        if(result && angular.isFunction(result.then)) {
+                            result.then(resolve,reject);
+                        } else 
+                            resolve();
+
+                    })
+                    .then(function() {
+                        close();
+                    });
+                }
+
+                function closeSide() {
+                    angular.element($scope.element).removeClass('fs-drawer-side-open');
+                    angular.element(document.querySelector('.pane-side')).css('display','none');
+                }
+
+                function openSide() {
+                    angular.element($scope.element).addClass('fs-drawer-side-open');
+                    angular.element(document.querySelector('.pane-side')).css('display','block');
+                }
+
+                function refresh() {
+                    var data = angular.copy($scope.options.actions);
+                    $scope.options.actions = data;
+                }                
+
+                function open() {
+                    angular.element(document.querySelector('html')).addClass('fs-pane-side-active');
+                    $scope.drawerStyle.right = 0;
+                }
+
+                function close() {
+                    angular.element(document.querySelector('html')).removeClass('fs-pane-side-active');
+                    $scope.drawerStyle.right = '-5000px';
+                }                
+
+                angular.extend($scope.instance,
+                                {   open: $scope.openDrawer, 
+                                    close: $scope.closeDrawer, 
+                                    closeSide: closeSide, 
+                                    openSide: openSide,
+                                    refresh: refresh });
 
                 angular.extend($scope,$scope.options.scope);
 
@@ -29,7 +104,6 @@
 
             link: function($scope, element, attrs) {
 
-                var interval;
                 var mousedown = false;
 
                 if(!$scope.options) {
@@ -38,6 +112,17 @@
 
                 $scope.sideClass = {};
                 $scope.mainClass = {};
+                $scope.element = element;
+
+
+                var interval = $interval(function() {
+                    var main = element[0].querySelector('#fs-pane-main');
+
+                    if(!mousedown && main.offsetWidth>window.innerWidth) {
+                        angular.element(main).css('width',window.innerWidth + 'px');
+                    }
+
+                },300);
 
                 $scope.$watch('options.sideClass',function(value) {
                     $scope.sideClass[$scope.options.sideClass] = !!value;
@@ -62,11 +147,6 @@
                 $scope.drawerStyle = {};
                 $scope.sideDrawerStyle = {};
 
-                function close() {
-                    angular.element(document.querySelector('html')).removeClass('fs-pane-side-active');
-                    $scope.drawerStyle.right = '-5000px';
-                }
-
                 var eventMousedown = function() { mousedown = true; };
                 var eventMouseup = function() { mousedown = false; };
 
@@ -79,55 +159,6 @@
                     $interval.cancel(interval);
                 });
 
-                function open() {
-                    angular.element(document.querySelector('html')).addClass('fs-pane-side-active');
-                    $scope.drawerStyle.right = 0;
-
-                    interval = $interval(function() {
-                        var main = element[0].querySelector('#fs-pane-main');
-
-                        if(!mousedown && main.offsetWidth>window.innerWidth) {
-                            angular.element(main).css('width',window.innerWidth + 'px');
-                        }
-
-                    },300);
-                }
-
-                function closeSide() {
-                    angular.element(element).removeClass('fs-drawer-side-open');
-                    angular.element(document.querySelector('.pane-side')).css('display','none');
-                }
-
-                function openSide() {
-                    angular.element(element).addClass('fs-drawer-side-open');
-                    angular.element(document.querySelector('.pane-side')).css('display','block');
-                }
-
-                function refresh() {
-                    var data = angular.copy($scope.options.actions);
-                    $scope.options.actions = data;
-                }
-
-                $scope.closeDrawer = function() {
-                    $q(function(resolve,reject) {
-
-                        var result = null;
-                        if($scope.options.close) {
-                            result = $scope.options.close($scope);
-                        }
-
-                        if(result && angular.isFunction(result.then)) {
-                            result.then(resolve,reject);
-                        } else 
-                            resolve();
-
-                    })
-                    .then(function() {
-                        close();
-                    });
-                }
-
-
                 $scope.actionClick = function(action, $event) {
                     action.click($scope, $event);
                 }
@@ -138,22 +169,6 @@
                     }
 
                     return true;
-                }
-                
-                $scope.openDrawer = function() { 
-                    
-                    if($scope.options.open) {
-
-                        var args = [$scope];
-                        angular.forEach(arguments,function(argument) {
-                            args.push(argument);
-                        });
-
-                        $scope.options.open.apply(this,args)
-                        open();
-                    } else {
-                        open();
-                    }
                 }
 
                 var drawerPersist = fsStore.get('drawer-persist',{});
@@ -180,13 +195,6 @@
                     }
                 });
 
-                angular.extend($scope.instance,
-                                {   open: $scope.openDrawer, 
-                                    close: $scope.closeDrawer, 
-                                    closeSide: closeSide, 
-                                    openSide: openSide,
-                                    refresh: refresh });
-
                 if($scope.options.load) {
                     $scope.options.load($scope);
                 }
@@ -204,14 +212,14 @@
      * @name fs.fsDrawer
     */
 
-	angular.module('fs-angular-drawer')
-	.service('fsDrawer', function($rootScope, $compile) {
+    angular.module('fs-angular-drawer')
+    .service('fsDrawer', function($rootScope, $compile) {
 
-		var service = {
-			create: create
-		};
+        var service = {
+            create: create
+        };
 
-		return service;
+        return service;
 
         /**
          * @ngdoc method
@@ -225,18 +233,17 @@
          * @param {object} options.scope An object used to pass variables into the drawer controller
          * @param {string} options.mainClass Used in the main drawer pane
          * @param {string} options.sideClass Used in the side drawer pane
-		 * @param {array} options.actions An array of objects that are used to for the drawer's side toolbar
+         * @param {array} options.actions An array of objects that are used to for the drawer's side toolbar
          *            <ul>
          *               <li><label>tooltip</label>Label tooltip</li>
          *               <li><label>click</label>The function fired when the action is clicked. $scope is passed as the first parameter</li>
          *               <li><label>show</label>A function that is used to test the visibility of the action</li>
-         *               <li><label>class</label>The class that is assigned to the action</li>
          *          </ul>
-		 * @example
-		 * <pre>
+         * @example
+         * <pre>
 $scope.instance = {};
 
-$scope.options = {	templateUrl: 'views/drawer.html',
+$scope.options = {  templateUrl: 'views/drawer.html',
                     sideTemplateUrl: 'views/drawerside.html',
                     controller: 'DrawerCtrl',
                     scope: {
@@ -262,29 +269,29 @@ $scope.instance = fsDrawer.create($scope.options);
 $scope.open = function() {
     $scope.instance.open();
 }
-		 * </pre>
+         * </pre>
          */
 
-		function create(options) {
+        function create(options) {
 
-			var $scope = $rootScope.$new();
-			$scope.instance = {};
-			$scope.options = options;
+            var $scope = $rootScope.$new();
+            $scope.instance = {};
+            $scope.options = options;
 
-			var container = angular.element(document.querySelector('#fs-drawer-container'));
+            var container = angular.element(document.querySelector('#fs-drawer-container'));
 
-			if(container.length) {
-				container.remove();
-			}
+            if(container.length) {
+                container.remove();
+            }
 
-			var container = angular.element('<div id="fs-drawer-container"><fs-drawer fs-options="options" fs-instance="instance"></fs-drawer></div>');
-			angular.element(document.querySelector('body')).append(container);
+            var container = angular.element('<div id="fs-drawer-container"><fs-drawer fs-options="options" fs-instance="instance"></fs-drawer></div>');
+            angular.element(document.querySelector('body')).append(container);
 
-			$compile(container.contents())($scope);
+            $compile(container.contents())($scope);
 
-			return $scope.instance;
-		}
-	});
+            return $scope.instance;
+        }
+    });
 
 })();
 angular.module('fs-angular-drawer').run(['$templateCache', function($templateCache) {
