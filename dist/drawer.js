@@ -1,4 +1,5 @@
 
+
 (function () {
     'use strict';
 
@@ -21,8 +22,8 @@
             },
             controller: function($scope) {
 
-                $scope.openDrawer = function() { 
-                    
+                $scope.openDrawer = function() {
+
                     if($scope.options.open) {
 
                         var args = [$scope];
@@ -31,10 +32,13 @@
                         });
 
                         $scope.options.open.apply(this,args);
-                        open();
-                    } else {
-                        open();
                     }
+
+                    if($scope.open) {
+                        $scope.open.apply($scope,arguments);
+                    }
+
+                    open();
                 }
 
                 $scope.closeDrawer =function() {
@@ -47,7 +51,7 @@
 
                         if(result && angular.isFunction(result.then)) {
                             result.then(resolve,reject);
-                        } else 
+                        } else
                             resolve();
 
                     })
@@ -69,7 +73,7 @@
                 function refresh() {
                     var data = angular.copy($scope.options.actions);
                     $scope.options.actions = data;
-                }                
+                }
 
                 function open() {
                     angular.element(document.querySelector('html')).addClass('fs-pane-side-active');
@@ -79,12 +83,12 @@
                 function close() {
                     angular.element(document.querySelector('html')).removeClass('fs-pane-side-active');
                     $scope.drawerStyle.right = '-5000px';
-                }                
+                }
 
                 angular.extend($scope.instance,
-                                {   open: $scope.openDrawer, 
-                                    close: $scope.closeDrawer, 
-                                    closeSide: closeSide, 
+                                {   open: $scope.openDrawer,
+                                    close: $scope.closeDrawer,
+                                    closeSide: closeSide,
                                     openSide: openSide,
                                     refresh: refresh });
 
@@ -183,7 +187,7 @@
                 $scope.sideDrawerStyle.width = persist.sideWidth + 'px';
 
                 $scope.$on("angular-resizable.resizeEnd", function (event, args) {
-                  
+
                     if(args.id=='fs-pane-main') {
                         persist.mainWidth = args.width;
                         $scope.drawerStyle.width = args.width + 'px';
