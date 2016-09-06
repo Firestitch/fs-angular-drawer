@@ -28,6 +28,7 @@
          * @param {object} options.scope An object used to pass variables into the drawer controller
          * @param {string} options.mainClass Used in the main drawer pane
          * @param {string} options.sideClass Used in the side drawer pane
+         * @param {string} options.id Used to specify the drawer container id
          * @param {string} options.startOpen Right after the drawer is created it will open automatically
          * @param {array} options.actions An array of objects that are used to for the drawer's side toolbar
          *            <ul>
@@ -74,13 +75,14 @@ $scope.open = function() {
             $scope.instance = {};
             $scope.options = options;
 
-            var container = angular.element(document.querySelector('#fs-drawer-container'));
+            var id = options.id ? options.id : '#fs-drawer-container';
+            var container = angular.element(document.querySelector(id));
 
             if(container.length) {
                 container.remove();
             }
 
-            var container = angular.element('<div id="fs-drawer-container"><fs-drawer fs-options="options" fs-instance="instance"></fs-drawer></div>');
+            var container = angular.element('<div id="' + id + '"><fs-drawer fs-options="options" fs-instance="instance"></fs-drawer></div>');
             angular.element(document.querySelector('body')).append(container);
 
             $compile(container.contents())($scope);
