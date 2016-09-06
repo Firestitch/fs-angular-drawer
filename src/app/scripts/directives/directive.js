@@ -201,6 +201,10 @@
                 if($scope.options.load) {
                     $scope.options.load($scope);
                 }
+
+                if($scope.options.startOpen) {
+                    $scope.instance.open();
+                }
             }
         };
     })
