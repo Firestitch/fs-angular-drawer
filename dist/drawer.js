@@ -242,7 +242,7 @@
          * @param {string} options.mainClass Used in the main drawer pane
          * @param {string} options.sideClass Used in the side drawer pane
          * @param {string} options.id Used to specify the drawer container id
-         * @param {string} options.startOpen Right after the drawer is created it will open automatically
+         * @param {string} options.openOnCreate Right after the drawer is created it will open automatically
          * @param {array} options.actions An array of objects that are used to for the drawer's side toolbar
          *            <ul>
          *               <li><label>tooltip</label>Label tooltip</li>
