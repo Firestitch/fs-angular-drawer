@@ -203,7 +203,7 @@
                     $scope.options.load($scope);
                 }
 
-                if($scope.options.startOpen) {
+                if($scope.options.openOnCreate) {
                     $scope.instance.open();
                 }
             }
