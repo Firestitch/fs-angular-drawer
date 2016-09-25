@@ -71,7 +71,7 @@
                  * @description Closes the side drawer
                  */
                 function closeSide() {
-                    angular.element($scope.element).removeClass('fs-drawer-side-open');
+                    angular.element($scope.elDrawer).removeClass('fs-drawer-side-open');
                 }
 
                 /**
@@ -81,7 +81,7 @@
                  * @description Opens the side drawer
                  */
                 function openSide() {
-                    angular.element($scope.element).addClass('fs-drawer-side-open');
+                    angular.element($scope.elDrawer).addClass('fs-drawer-side-open');
                 }
 
                 function refresh() {
@@ -96,7 +96,7 @@
                  * @description Opens the main drawer
                  */
                 function open() {
-                    angular.element($scope.element).addClass('fs-drawer-open');
+                    angular.element($scope.elDrawer).addClass('fs-drawer-open');
                     angular.element(document.querySelector('html')).addClass('fs-pane-side-active');
                     $scope.drawerStyle.right = 0;
                 }
@@ -119,7 +119,7 @@
                  * @description Tests if the main drawer is open
                  */
                 function isOpen() {
-                    return angular.element($scope.element).hasClass('fs-drawer-open');
+                    return angular.element($scope.elDrawer).hasClass('fs-drawer-open');
                 }
 
                 /**
@@ -129,7 +129,7 @@
                  * @description Tests if the side drawer is open
                  */
                 function isSideOpen() {
-                    return angular.element($scope.element).hasClass('fs-drawer-side-open');
+                    return angular.element($scope.elDrawer).hasClass('fs-drawer-side-open');
                 }
 
                 /**
@@ -176,8 +176,7 @@
 
                 $scope.sideClass = {};
                 $scope.mainClass = {};
-                $scope.element = element;
-
+                $scope.elDrawer = element;
 
                 var interval = $interval(function() {
                     var main = element[0].querySelector('.drawer');

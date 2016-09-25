@@ -18,7 +18,8 @@
                             {
                                 icon: 'share',
                                 tooltip: 'Related',
-                                click: function($scope) {
+                                click: function() {
+                                    $scope.instance.toggleSide();
                                 }
                             },
                             {
@@ -27,8 +28,9 @@
                                 show: function($scope) {
                                     return showAction;
                                 },
-                                click: function($scope, event) {
+                                click: function() {
                                     this.class = 'action-class';
+                                     $scope.instance.openSide();
                                 }
                             },
                             {
@@ -44,7 +46,7 @@
 
     $scope.instance = fsDrawer.create($scope.options);
 
-    $scope.toogleAction = function() {
+    $scope.toggleAction = function() {
         showAction = !showAction;
     }
 
