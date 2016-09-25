@@ -10,6 +10,10 @@
       * @param {object} fs-instance Instance reference variable.
       */
 
+    /**
+      * @ngdoc service
+      * @name fs.services:fsDrawerInstance
+      */
     angular.module('fs-angular-drawer',['fs-angular-store','angularResizable'])
     .directive('fsDrawer', function(fsStore, $http, $compile, $q, $interval, $controller) {
         return {
@@ -59,14 +63,24 @@
                     });
                 }
 
+                /**
+                 * @ngdoc method
+                 * @name closeSide
+                 * @methodOf fs.services:fsDrawerInstance
+                 * @description Closes the side drawer
+                 */
                 function closeSide() {
                     angular.element($scope.element).removeClass('fs-drawer-side-open');
-                    angular.element(document.querySelector('.pane-side')).css('display','none');
                 }
 
+                /**
+                 * @ngdoc method
+                 * @name openSide
+                 * @methodOf fs.services:fsDrawerInstance
+                 * @description Opens the side drawer
+                 */
                 function openSide() {
                     angular.element($scope.element).addClass('fs-drawer-side-open');
-                    angular.element(document.querySelector('.pane-side')).css('display','block');
                 }
 
                 function refresh() {
@@ -74,14 +88,57 @@
                     $scope.options.actions = data;
                 }
 
+                /**
+                 * @ngdoc method
+                 * @name open
+                 * @methodOf fs.services:fsDrawerInstance
+                 * @description Opens the main drawer
+                 */
                 function open() {
+                    angular.element($scope.element).addClass('fs-drawer-open');
                     angular.element(document.querySelector('html')).addClass('fs-pane-side-active');
                     $scope.drawerStyle.right = 0;
                 }
 
+                /**
+                 * @ngdoc method
+                 * @name close
+                 * @methodOf fs.services:fsDrawerInstance
+                 * @description Closes the side drawer
+                 */
                 function close() {
                     angular.element(document.querySelector('html')).removeClass('fs-pane-side-active');
                     $scope.drawerStyle.right = '-5000px';
+                }
+
+                /**
+                 * @ngdoc method
+                 * @name isOpen
+                 * @methodOf fs.services:fsDrawerInstance
+                 * @description Tests if the main drawer is open
+                 */
+                function isOpen() {
+                    return angular.element($scope.element).hasClass('fs-drawer-open');
+                }
+
+                /**
+                 * @ngdoc method
+                 * @name isSideOpen
+                 * @methodOf fs.services:fsDrawerInstance
+                 * @description Tests if the side drawer is open
+                 */
+                function isSideOpen() {
+                    return angular.element($scope.element).hasClass('fs-drawer-side-open');
+                }
+
+                /**
+                 * @ngdoc method
+                 * @name toggleSide
+                 * @methodOf fs.services:fsDrawerInstance
+                 * @description Toggle the main drawer open/close
+                 */
+                function toggleSide() {
+                    isSideOpen() ? closeSide() : openSide();
                 }
 
                 angular.extend($scope.instance,
@@ -89,7 +146,10 @@
                                     close: $scope.closeDrawer,
                                     closeSide: closeSide,
                                     openSide: openSide,
-                                    refresh: refresh });
+                                    isSideOpen: isSideOpen,
+                                    isOpen: isOpen,
+                                    refresh: refresh,
+                                    toggleSide: toggleSide });
 
                 angular.extend($scope,$scope.options.scope);
 
@@ -119,7 +179,7 @@
 
 
                 var interval = $interval(function() {
-                    var main = element[0].querySelector('#fs-pane-main');
+                    var main = element[0].querySelector('.drawer');
 
                     if(!mousedown && main.offsetWidth>window.innerWidth) {
                         angular.element(main).css('width',window.innerWidth + 'px');

@@ -8,7 +8,7 @@ body {
     overflow-y: auto;
 }
 
-html.element-active body {    
+html.element-active body {
     position: fixed;
     top: 0;
     bottom: 0;
@@ -172,6 +172,10 @@ fs-drawer .drawer .pane-side {
     display: none;
     height: 100%;
     min-width: 350px;
+}
+
+fs-drawer.fs-drawer-side-open .drawer .pane-side {
+    display: block;
 }
 
 fs-drawer.fs-drawer-side-open .drawer {

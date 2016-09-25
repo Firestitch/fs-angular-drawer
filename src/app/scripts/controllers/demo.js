@@ -35,7 +35,7 @@
                                 icon: 'delete',
                                 tooltip: 'Remove',
                                 click: function($scope) {
-                                    
+
                                 }
                             },
                         ],
@@ -43,27 +43,31 @@
                         sideClass: 'sideClass' };
 
     $scope.instance = fsDrawer.create($scope.options);
-   
+
     $scope.toogleAction = function() {
         showAction = !showAction;
     }
 
     $scope.refresh = function() {
         $scope.instance.refresh();
-    }  
+    }
 
     $scope.open = function() {
         $scope.instance.open();
     }
-    
+
     $scope.openSide = function() {
         $scope.instance.openSide();
+    }
+
+    $scope.toggleSide = function() {
+        $scope.instance.toggleSide();
     }
 
     $scope.close = function() {
         $scope.instance.close();
     }
-    
+
     $scope.closeSide = function() {
         $scope.instance.closeSide();
     }
