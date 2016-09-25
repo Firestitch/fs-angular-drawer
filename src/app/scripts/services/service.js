@@ -75,8 +75,8 @@ $scope.open = function() {
             $scope.instance = {};
             $scope.options = options;
 
-            var id = options.id ? options.id : '#fs-drawer-container';
-            var container = angular.element(document.querySelector(id));
+            var id = options.id ? options.id : 'fs-drawer-container';
+            var container = angular.element(document.querySelector('#' + id));
 
             if(container.length) {
                 container.remove();
