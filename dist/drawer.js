@@ -369,28 +369,50 @@ angular.module('fs-angular-drawer').run(['$templateCache', function($templateCac
   'use strict';
 
   $templateCache.put('views/directives/drawer.html',
-    "<div resizable r-directions=\"['left']\" class=\"drawer\" id=\"fs-pane-main\" ng-style=\"drawerStyle\">\n" +
-    "    <div layout=\"row\" layout-fill>\n" +
-    "        <div class=\"drawer-actions\">\n" +
-    "            <a href ng-click=\"closeDrawer()\" class=\"drawer-action\">\n" +
-    "                <md-icon>close\n" +
-    "                <md-tooltip md-direction=\"left\">Close</md-tooltip>\n" +
-    "                </md-icon>\n" +
-    "            </a>\n" +
-    "            <a href ng-click=\"actionClick(action)\" class=\"drawer-action {{action.class}}\" ng-repeat=\"action in options.actions\" ng-show=\"actionShow(action, $event)\">\n" +
-    "                <md-icon>{{action.icon}}\n" +
-    "                    <md-tooltip md-direction=\"left\">{{action.tooltip}}</md-tooltip>\n" +
-    "                </md-icon>\n" +
-    "            </a>\n" +
-    "        </div>\n" +
-    "        <div resizable r-directions=\"['right']\" r-flex=\"true\" ng-style=\"sideDrawerStyle\" id=\"fs-pane-side\" class=\"pane-side\" ng-class=\"sideClass\">\n" +
-    "            <div class=\"fs-drawer-wrap\"></div>\n" +
-    "        </div>\n" +
-    "        <div flex class=\"pane-main\" ng-class=\"mainClass\">\n" +
-    "            <div class=\"fs-drawer-wrap\"></div>\n" +
-    "        </div>\n" +
-    "    </div>\n" +
-    "</div>\n"
+    "<div resizable r-directions=\"['left']\" class=\"drawer\" id=\"fs-pane-main\" ng-style=\"drawerStyle\">\r" +
+    "\n" +
+    "    <div layout=\"row\" layout-fill>\r" +
+    "\n" +
+    "        <div class=\"drawer-actions\">\r" +
+    "\n" +
+    "            <a href ng-click=\"closeDrawer()\" class=\"drawer-action\">\r" +
+    "\n" +
+    "                <md-icon>close\r" +
+    "\n" +
+    "                <md-tooltip md-direction=\"left\">Close</md-tooltip>\r" +
+    "\n" +
+    "                </md-icon>\r" +
+    "\n" +
+    "            </a>\r" +
+    "\n" +
+    "            <a href ng-click=\"actionClick(action)\" class=\"drawer-action {{action.class}}\" ng-repeat=\"action in options.actions\" ng-show=\"actionShow(action, $event)\">\r" +
+    "\n" +
+    "                <md-icon>{{action.icon}}\r" +
+    "\n" +
+    "                    <md-tooltip md-direction=\"left\">{{action.tooltip}}</md-tooltip>\r" +
+    "\n" +
+    "                </md-icon>\r" +
+    "\n" +
+    "            </a>\r" +
+    "\n" +
+    "        </div>\r" +
+    "\n" +
+    "        <div resizable r-directions=\"['right']\" r-flex=\"true\" ng-style=\"sideDrawerStyle\" id=\"fs-pane-side\" class=\"pane-side\" ng-class=\"sideClass\">\r" +
+    "\n" +
+    "            <div class=\"fs-drawer-wrap\"></div>\r" +
+    "\n" +
+    "        </div>\r" +
+    "\n" +
+    "        <div flex class=\"pane-main\" ng-class=\"mainClass\">\r" +
+    "\n" +
+    "            <div class=\"fs-drawer-wrap\"></div>\r" +
+    "\n" +
+    "        </div>\r" +
+    "\n" +
+    "    </div>\r" +
+    "\n" +
+    "</div>\r" +
+    "\n"
   );
 
 }]);
