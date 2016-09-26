@@ -26,6 +26,7 @@
          * @param {object} options.templateSideUrl The path to the side drawer template
          * @param {string|function} options.controller The controller for the drawer
          * @param {object} options.scope An object used to pass variables into the drawer controller
+         * @param {array} options.resolve When resolved the object will be injected into the controller
          * @param {string} options.mainClass Used in the main drawer pane
          * @param {string} options.sideClass Used in the side drawer pane
          * @param {string} options.id Used to specify the drawer container id

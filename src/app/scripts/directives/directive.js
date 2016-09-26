@@ -155,13 +155,31 @@
 
                 if($scope.options.controller) {
 
-                    if(typeof $scope.options.controller === 'string') {
-                        $controller($scope.options.controller,{ $scope : $scope });
+                    var data = { '$scope': $scope };
+                    var promises = [];
+                    if($scope.options.resolve) {
+                      angular.forEach($scope.options.resolve,function(resolve,name) {
+
+                        data[name] = resolve();
+                        if(data[name] && angular.isFunction(data[name].then)) {
+                          promises.push(data[name]);
+                          data[name].then(function(result) {
+                             data[name] = result;
+                          })
+                        }
+                      });
                     }
 
-                    if(typeof $scope.options.controller === 'function') {
+                    $q.all(promises)
+                    .then(function() {
+                      if(typeof $scope.options.controller === 'string') {
+                          $controller($scope.options.controller,data);
+                      }
+
+                      if(typeof $scope.options.controller === 'function') {
                         $scope.options.controller($scope);
-                    }
+                      }
+                    });
                 }
             },
 

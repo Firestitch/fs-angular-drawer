@@ -2,7 +2,7 @@
 
 
 angular.module('app')
-  .controller('DemoCtrl', function ($scope, fsDrawer) {
+  .controller('DemoCtrl', function ($scope, fsDrawer,$q) {
 
     var showAction = false;
     $scope.instance = {};
@@ -11,6 +11,17 @@
     $scope.options = {	templateUrl: 'views/drawer.html',
                         sideTemplateUrl: 'views/drawerside.html',
                         controller: 'DrawerCtrl',
+                        resolve: {
+                            test: function() {
+                                return "TEST!";
+                            },
+                            promise: function() {
+
+                                return $q(function(resolve) {
+                                    resolve("promise");
+                                });
+                            }
+                        },
                         scope: {
                             variable: $scope.variable
                         },
@@ -74,8 +85,7 @@
         $scope.instance.closeSide();
     }
 })
-.controller('DrawerCtrl',function($scope) {
-
-    $scope.content = 'Content from the DrawerCtrl';
+.controller('DrawerCtrl',function($scope,test,promise) {
+    $scope.content = 'Content from the DrawerCtrl ' + promise;
 });
 
