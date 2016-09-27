@@ -70,20 +70,35 @@ $scope.open = function() {
          * </pre>
          */
 
+
+        function guid() {
+            return 'xxxxxx'.replace(/[xy]/g, function(c) {
+                var r = Math.random()*16|0, v = c === 'x' ? r : (r&0x3|0x8);
+                return v.toString(16);
+            });
+        }
+
+
         function create(options) {
 
             var $scope = $rootScope.$new();
             $scope.instance = {};
             $scope.options = options;
 
-            var id = options.id ? options.id : 'fs-drawer-container';
-            var container = angular.element(document.querySelector('#' + id));
+            var id = options.id ? options.id : 'fs-drawer-container-' + guid();
+            var container = angular.element(document.querySelector('#' + options.id));
 
             if(container.length) {
                 container.remove();
             }
 
-            var container = angular.element('<div id="' + id + '"><fs-drawer fs-options="options" fs-instance="instance"></fs-drawer></div>');
+            container = angular.element('<fs-drawer-container>')
+                                .attr('id',id);
+
+            container.append(angular.element('<fs-drawer>')
+                                    .attr('fs-instance','instance')
+                                    .attr('fs-options','options'));
+
             angular.element(document.querySelector('body')).append(container);
 
             $compile(container.contents())($scope);

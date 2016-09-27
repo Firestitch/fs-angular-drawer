@@ -5,57 +5,59 @@
   .controller('DemoCtrl', function ($scope, fsDrawer,$q) {
 
     var showAction = false;
-    $scope.instance = {};
     $scope.action = false;
 
-    $scope.options = {	templateUrl: 'views/drawer.html',
-                        sideTemplateUrl: 'views/drawerside.html',
-                        controller: 'DrawerCtrl',
-                        resolve: {
-                            test: function() {
-                                return "TEST!";
-                            },
-                            promise: function() {
+    $scope.instance = fsDrawer
+                    .create({   templateUrl: 'views/drawer.html',
+                                sideTemplateUrl: 'views/drawerside.html',
+                                controller: 'DrawerCtrl',
+                                resolve: {
+                                    test: function() {
+                                        return "TEST!";
+                                    },
+                                    promise: function() {
 
-                                return $q(function(resolve) {
-                                    resolve("promise");
-                                });
-                            }
-                        },
-                        scope: {
-                            variable: $scope.variable
-                        },
-                        actions: [
-                            {
-                                icon: 'share',
-                                tooltip: 'Related',
-                                click: function() {
-                                    $scope.instance.toggleSide();
-                                }
-                            },
-                            {
-                                icon: 'toc',
-                                tooltip: 'Properties',
-                                show: function($scope) {
-                                    return showAction;
+                                        return $q(function(resolve) {
+                                            resolve("promise");
+                                        });
+                                    }
                                 },
-                                click: function() {
-                                    this.class = 'action-class';
-                                     $scope.instance.openSide();
-                                }
-                            },
-                            {
-                                icon: 'delete',
-                                tooltip: 'Remove',
-                                click: function($scope) {
+                                scope: {
+                                    variable: $scope.variable
+                                },
+                                actions: [
+                                    {
+                                        icon: 'share',
+                                        tooltip: 'Related',
+                                        click: function() {
+                                            $scope.instance.toggleSide();
+                                        }
+                                    },
+                                    {
+                                        icon: 'toc',
+                                        tooltip: 'Properties',
+                                        show: function($scope) {
+                                            return showAction;
+                                        },
+                                        click: function() {
+                                            this.class = 'action-class';
+                                             $scope.instance.openSide();
+                                        }
+                                    },
+                                    {
+                                        icon: 'delete',
+                                        tooltip: 'Remove',
+                                        click: function($scope) {
 
-                                }
-                            },
-                        ],
-                        mainClass: 'mainClass',
-                        sideClass: 'sideClass' };
+                                        }
+                                    },
+                                ],
+                                mainClass: 'mainClass',
+                                sideClass: 'sideClass' });
 
-    $scope.instance = fsDrawer.create($scope.options);
+     $scope.secondInstance = fsDrawer
+                            .create({   templateUrl: 'views/drawersecond.html',
+                                        });
 
     $scope.toggleAction = function() {
         showAction = !showAction;
@@ -67,6 +69,10 @@
 
     $scope.open = function() {
         $scope.instance.open();
+    }
+
+    $scope.openSecond = function() {
+        $scope.secondInstance.open();
     }
 
     $scope.openSide = function() {
