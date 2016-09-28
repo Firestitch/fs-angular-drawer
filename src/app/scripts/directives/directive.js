@@ -98,11 +98,15 @@
                 function open() {
 
                     var container = angular.element($scope.elDrawer).parent();
-                    angular.element(document.querySelector('body')).append(container);
 
-                    angular.element($scope.elDrawer).addClass('fs-drawer-open');
-                    angular.element(document.querySelector('html')).addClass('fs-pane-side-active');
-                    $scope.drawerStyle.right = 0;
+                    if(container.parent().length) {
+
+                      angular.element(document.querySelector('body')).append(container);
+
+                      angular.element($scope.elDrawer).addClass('fs-drawer-open');
+                      angular.element(document.querySelector('html')).addClass('fs-pane-side-active');
+                      $scope.drawerStyle.right = 0;
+                    }
                 }
 
                 /**

@@ -11,6 +11,7 @@
                     .create({   templateUrl: 'views/drawer.html',
                                 sideTemplateUrl: 'views/drawerside.html',
                                 controller: 'DrawerCtrl',
+                                id: 'first-drawer',
                                 resolve: {
                                     test: function() {
                                         return "TEST!";
