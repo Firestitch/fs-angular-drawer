@@ -16,7 +16,7 @@
       * @name fs.services:fsDrawerInstance
       */
     angular.module('fs-angular-drawer',['fs-angular-store','angularResizable'])
-    .directive('fsDrawer', function(fsStore, $http, $compile, $q, $interval, $controller) {
+    .directive('fsDrawer', function(fsStore, $http, $compile, $q, $interval, $controller, $window) {
         return {
             restrict: 'E',
             templateUrl: 'views/directives/drawer.html',
@@ -25,6 +25,8 @@
                 instance: '=fsInstance'
             },
             controller: function($scope) {
+
+            	$scope.tooltipDirection = 'left';
 
                 $scope.openDrawer = function() {
 
@@ -107,6 +109,13 @@
                       angular.element(document.querySelector('html')).addClass('fs-pane-side-active');
                       $scope.drawerStyle.right = 0;
                     }
+
+                    var drawerWidth = parseInt(angular.element($scope.elDrawer).children('.drawer').css('width'));
+	                if(drawerWidth >= $window.innerWidth - 100)
+	                	$scope.tooltipDirection = 'right';
+	                else
+	                	$scope.tooltipDirection = 'left';
+
                 }
 
                 /**
@@ -276,12 +285,18 @@
                     if(args.id=='fs-pane-main') {
                         persist.mainWidth = args.width;
                         $scope.drawerStyle.width = args.width + 'px';
+
+                        if(args.width >= $window.innerWidth - 100)
+                        	$scope.tooltipDirection = 'right';
+                        else
+                        	$scope.tooltipDirection = 'left';
                     }
 
                     if(args.id=='fs-pane-side') {
                         persist.sideWidth = args.width;
                         $scope.sideDrawerStyle.width = args.width + 'px';
                     }
+
                 });
 
                 if($scope.options.load) {
