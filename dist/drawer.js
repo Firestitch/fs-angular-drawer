@@ -15,7 +15,7 @@
       * @name fs.services:fsDrawerInstance
       */
     angular.module('fs-angular-drawer',['fs-angular-store','angularResizable'])
-    .directive('fsDrawer', function(fsStore, $http, $compile, $q, $interval, $controller, $templateCache) {
+    .directive('fsDrawer', function(fsStore, $http, $compile, $q, $interval, $controller, $templateCache,$window) {
         return {
             restrict: 'E',
             templateUrl: 'views/directives/drawer.html',
@@ -24,7 +24,14 @@
                 instance: '=fsInstance'
             },
             controller: function($scope, $rootScope) {
+
               var scope = $scope;
+            	$scope.tooltipDirection = 'left';
+
+              $scope.calculateTooltip = function(width) {
+                width = width ? width : parseInt(angular.element($scope.elDrawer).children('.drawer').css('width'));
+                $scope.tooltipDirection = width >= $window.innerWidth - 100 ? 'right' : 'left';
+              }
 
               $scope.openDrawer = function() {
 
@@ -97,6 +104,7 @@
                */
               function open() {
 
+
                   var container = angular.element($scope.elDrawer).parent();
 
                   if(container.parent().length) {
@@ -107,6 +115,8 @@
                     angular.element(document.querySelector('html')).addClass('fs-pane-side-active');
                     $scope.drawerStyle.right = 0;
                   }
+
+                  $scope.calculateTooltip();
               }
 
               /**
@@ -205,12 +215,14 @@
                       $compile(el.contents())(scope);
                   });
 
-                  $http.get($scope.options.sideTemplateUrl, {
-                      cache: $templateCache
-                  }).then(function(data) {
-                      var el = angular.element(element[0].querySelector('.pane-side .fs-drawer-wrap')).html(data.data);
-                          $compile(el.contents())(scope);
-                  });
+                  if($scope.options.sideTemplateUrl) {
+                    $http.get($scope.options.sideTemplateUrl, {
+                        cache: $templateCache
+                    }).then(function(data) {
+                        var el = angular.element(element[0].querySelector('.pane-side .fs-drawer-wrap')).html(data.data);
+                            $compile(el.contents())(scope);
+                    });
+                  }
                 });
 
                 if(!$scope.options) {
@@ -281,12 +293,14 @@
                     if(args.id=='fs-pane-main') {
                         persist.mainWidth = args.width;
                         $scope.drawerStyle.width = args.width + 'px';
+                        $scope.calculateTooltip(args.width);
                     }
 
                     if(args.id=='fs-pane-side') {
                         persist.sideWidth = args.width;
                         $scope.sideDrawerStyle.width = args.width + 'px';
                     }
+
                 });
 
                 if($scope.options.load) {
@@ -425,7 +439,7 @@ angular.module('fs-angular-drawer').run(['$templateCache', function($templateCac
     "\n" +
     "                <md-icon>close\r" +
     "\n" +
-    "                <md-tooltip md-direction=\"left\">Close</md-tooltip>\r" +
+    "                <md-tooltip md-direction=\"{{tooltipDirection}}\">Close</md-tooltip>\r" +
     "\n" +
     "                </md-icon>\r" +
     "\n" +
@@ -435,7 +449,7 @@ angular.module('fs-angular-drawer').run(['$templateCache', function($templateCac
     "\n" +
     "                <md-icon>{{action.icon}}\r" +
     "\n" +
-    "                    <md-tooltip md-direction=\"left\">{{action.tooltip}}</md-tooltip>\r" +
+    "                    <md-tooltip md-direction=\"{{tooltipDirection}}\">{{action.tooltip}}</md-tooltip>\r" +
     "\n" +
     "                </md-icon>\r" +
     "\n" +
