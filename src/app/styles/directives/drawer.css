@@ -164,6 +164,7 @@ fs-drawer .drawer .pane-main {
 fs-drawer .drawer .fs-drawer-wrap {
     overflow-y: auto;
     padding: 13px;
+    box-sizing: border-box;
 }
 
 fs-drawer .drawer .pane-side {
