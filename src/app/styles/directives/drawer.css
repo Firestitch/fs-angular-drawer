@@ -143,8 +143,6 @@ fs-drawer .drawer .drawer-actions md-icon {
     position: relative;
     z-index: 99;
     padding: 5px;
-    margin-right: -1px;
-    left: -1px;
 }
 
 fs-drawer .drawer .drawer-actions a:first-child md-icon {
