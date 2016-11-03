@@ -32,6 +32,7 @@
                                         tooltip: 'Related',
                                         click: function() {
                                             $scope.instance.toggleSide();
+                                            this.select($scope.instance.isSideOpen());
                                         }
                                     },
                                     {
@@ -42,7 +43,7 @@
                                         },
                                         click: function() {
                                             this.class = 'action-class';
-                                             $scope.instance.openSide();
+                                            $scope.instance.openSide();
                                         }
                                     },
                                     {
