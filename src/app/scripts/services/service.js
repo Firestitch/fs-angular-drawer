@@ -8,10 +8,13 @@
     */
 
     angular.module('fs-angular-drawer')
-    .service('fsDrawer', function($rootScope, $compile) {
-
+    .service('fsDrawer', function($rootScope, $compile, $timeout) {
+        var _instances = [];
         var service = {
-            create: create
+            create: create,
+            instances: instances,
+            destroy: destroy,
+            close: close
         };
 
         return service;
@@ -70,15 +73,6 @@ $scope.open = function() {
          * </pre>
          */
 
-
-        function guid() {
-            return 'xxxxxx'.replace(/[xy]/g, function(c) {
-                var r = Math.random()*16|0, v = c === 'x' ? r : (r&0x3|0x8);
-                return v.toString(16);
-            });
-        }
-
-
         function create(options) {
 
             var $scope = $rootScope.$new();
@@ -103,7 +97,43 @@ $scope.open = function() {
 
             $compile(container.contents())($scope);
 
+            _instances.push($scope.instance);
+
             return $scope.instance;
+        }
+
+        /**
+         * @ngdoc method
+         * @name instances
+         * @methodOf fs.fsDrawer
+         * @description Gets all the active drawer instances
+         */
+        function instances() {
+            return _instances;
+        }
+
+        /**
+         * @ngdoc method
+         * @name destroy
+         * @methodOf fs.fsDrawer
+         * @description Destroys all the active drawer instances
+         */
+        function destroy() {
+            angular.forEach(_instances,function(instance) {
+                instance.destroy();
+            });
+        }
+
+        /**
+         * @ngdoc method
+         * @name close
+         * @methodOf fs.fsDrawer
+         * @description Closes all the active drawer instances
+         */
+        function close() {
+            angular.forEach(_instances,function(instance) {
+                instance.close();
+            });
         }
     });
 

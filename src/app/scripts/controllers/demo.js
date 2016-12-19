@@ -92,6 +92,19 @@
     $scope.closeSide = function() {
         $scope.instance.closeSide();
     }
+
+    $scope.getInstances = function() {
+        $scope.instances = fsDrawer.instances();
+        debugger;
+    }
+
+    $scope.destroy = function() {
+        fsDrawer.destroy();
+    }
+
+    $scope.closeAll = function() {
+        fsDrawer.close();
+    }
 })
 .controller('DrawerCtrl',function($scope,test,promise) {
     $scope.content = 'Content from the DrawerCtrl ' + promise;

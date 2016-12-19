@@ -108,7 +108,6 @@
                      */
                     function open() {
 
-
                         var container = angular.element($scope.elDrawer).parent();
 
                         if (container.parent().length) {
@@ -171,6 +170,11 @@
                         });
                     }
 
+                    function destroy() {
+                    	$scope.$destroy();
+                    	$scope.elDrawer.remove();
+                    }
+
                     angular.extend($scope.instance, {
                         open: $scope.openDrawer,
                         close: $scope.closeDrawer,
@@ -179,7 +183,8 @@
                         isSideOpen: isSideOpen,
                         isOpen: isOpen,
                         refresh: refresh,
-                        toggleSide: toggleSide
+                        toggleSide: toggleSide,
+                        destroy: destroy
                     });
 
                     angular.extend(scope, $scope.options.scope);
