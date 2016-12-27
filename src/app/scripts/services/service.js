@@ -75,19 +75,26 @@ $scope.open = function() {
 
         function create(options) {
 
-            var $scope = $rootScope.$new();
-            $scope.instance = {};
-            $scope.options = options;
-
             var id = options.id ? options.id : 'fs-drawer-container';
             var container = angular.element(document.querySelector('#' + id));
 
             if(container.length) {
+                var instance = container.data('instance');
+                if(instance) {
+                    instance.destroy();
+                }
+
                 container.remove();
             }
 
+            var $scope = $rootScope.$new();
+            $scope.instance = {};
+            $scope.options = options;
+
+
             container = angular.element('<fs-drawer-container>')
-                                .attr('id',id);
+                                .attr('id',id)
+                                .data('instance',$scope.instance);
 
             container.append(angular.element('<fs-drawer>')
                                     .attr('fs-instance','instance')

@@ -57,9 +57,17 @@
                                 mainClass: 'mainClass',
                                 sideClass: 'sideClass' });
 
-     $scope.secondInstance = fsDrawer
+         $scope.thridInstance = fsDrawer
+                                .create({   templateUrl: 'views/demo.html',
+                                            });
+
+    setTimeout(function() {
+        $scope.secondInstance = fsDrawer
                             .create({   templateUrl: 'views/drawersecond.html',
                                         });
+
+
+    },1000);
 
     $scope.toggleAction = function() {
         showAction = !showAction;

@@ -14,8 +14,8 @@
      * @ngdoc service
      * @name fs.services:fsDrawerInstance
      */
-    angular.module('fs-angular-drawer', ['fs-angular-store', 'angularResizable', 'fs-angular-util'])
-        .directive('fsDrawer', function(fsStore, $http, $compile, $q, $controller, $templateCache, $window, fsUtil) {
+    angular.module('fs-angular-drawer', ['fs-angular-store', 'angularResizable'])
+        .directive('fsDrawer', function(fsStore, $http, $compile, $q, $controller, $templateCache, $window) {
             return {
                 restrict: 'E',
                 templateUrl: 'views/directives/drawer.html',
@@ -121,6 +121,7 @@
                         }
 
                         $scope.calculateTooltip();
+                        $scope.resize();
                     }
 
                     /**
@@ -230,8 +231,6 @@
 
                 link: function($scope, element, attrs) {
 
-                    var mousedown = false;
-
                     $scope.promise.then(function(scope) {
 
                         $http.get($scope.options.templateUrl, {
@@ -261,12 +260,6 @@
 
                     var drawer = element[0].querySelector('.drawer');
 
-                    fsUtil.interval(function() {
-                        if (drawer.offsetWidth > window.innerWidth && !mousedown) {
-                            angular.element(drawer).css('width', window.innerWidth + 'px');
-                        }
-                    }, 300, 'drawer-resize');
-
                     $scope.$watch('options.sideClass', function(value) {
                         $scope.sideClass[$scope.options.sideClass] = !!value;
                     });
@@ -278,24 +271,20 @@
                     $scope.drawerStyle = {};
                     $scope.sideDrawerStyle = {};
 
-                    var eventMousedown = function() { mousedown = true; };
-                    var eventMouseup = function() { mousedown = false; };
-
-                    window.addEventListener('mousedown', eventMousedown, true);
-                    window.addEventListener('mouseup', eventMouseup, true);
-
-                    $scope.$on('$destroy', function() {
-                        window.removeEventListener('mousedown', eventMousedown);
-                        window.removeEventListener('mouseup', eventMouseup);
-                        fsUtil.clearInterval('drawer-resize');
-                    });
-
                     $scope.actionShow = function(action) {
                         if (action.show) {
                             return action.show($scope);
                         }
 
                         return true;
+                    }
+
+                    $scope.resize = function() {
+                    	setTimeout(function() {
+							if (drawer.offsetWidth > window.innerWidth) {
+	                            angular.element(drawer).css('width', window.innerWidth + 'px');
+	                        }
+	                    });
                     }
 
                     var drawerPersist = fsStore.get('drawer-persist', {});
@@ -315,6 +304,7 @@
                             persist.mainWidth = args.width;
                             $scope.drawerStyle.width = args.width + 'px';
                             $scope.calculateTooltip(args.width);
+                            $scope.resize();
                         }
 
                         if (args.id == 'fs-pane-side') {
@@ -331,6 +321,13 @@
                     if ($scope.options.openOnCreate) {
                         $scope.instance.open();
                     }
+
+                    window.addEventListener('resize', $scope.resize, true);
+
+                    $scope.$on('$destroy', function() {
+                        window.removeEventListener('resize', $scope.resize);
+                    });
+
                 }
             };
         })
@@ -414,19 +411,26 @@ $scope.open = function() {
 
         function create(options) {
 
-            var $scope = $rootScope.$new();
-            $scope.instance = {};
-            $scope.options = options;
-
             var id = options.id ? options.id : 'fs-drawer-container';
             var container = angular.element(document.querySelector('#' + id));
 
             if(container.length) {
+                var instance = container.data('instance');
+                if(instance) {
+                    instance.destroy();
+                }
+
                 container.remove();
             }
 
+            var $scope = $rootScope.$new();
+            $scope.instance = {};
+            $scope.options = options;
+
+
             container = angular.element('<fs-drawer-container>')
-                                .attr('id',id);
+                                .attr('id',id)
+                                .data('instance',$scope.instance);
 
             container.append(angular.element('<fs-drawer>')
                                     .attr('fs-instance','instance')
