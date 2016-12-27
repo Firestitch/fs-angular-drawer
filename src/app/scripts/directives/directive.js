@@ -13,8 +13,8 @@
      * @ngdoc service
      * @name fs.services:fsDrawerInstance
      */
-    angular.module('fs-angular-drawer', ['fs-angular-store', 'angularResizable'])
-        .directive('fsDrawer', function(fsStore, $http, $compile, $q, $interval, $controller, $templateCache, $window) {
+    angular.module('fs-angular-drawer', ['fs-angular-store', 'angularResizable', 'fs-angular-util'])
+        .directive('fsDrawer', function(fsStore, $http, $compile, $q, $controller, $templateCache, $window, fsUtil) {
             return {
                 restrict: 'E',
                 templateUrl: 'views/directives/drawer.html',
@@ -258,14 +258,13 @@
                     $scope.mainClass = {};
                     $scope.elDrawer = element;
 
-                    var interval = $interval(function() {
-                        var main = element[0].querySelector('.drawer');
+                    var drawer = element[0].querySelector('.drawer');
 
-                        if (!mousedown && main.offsetWidth > window.innerWidth) {
-                            angular.element(main).css('width', window.innerWidth + 'px');
+                    fsUtil.interval(function() {
+                        if (drawer.offsetWidth > window.innerWidth && !mousedown) {
+                            angular.element(drawer).css('width', window.innerWidth + 'px');
                         }
-
-                    }, 300);
+                    }, 300, 'drawer-resize');
 
                     $scope.$watch('options.sideClass', function(value) {
                         $scope.sideClass[$scope.options.sideClass] = !!value;
@@ -287,7 +286,7 @@
                     $scope.$on('$destroy', function() {
                         window.removeEventListener('mousedown', eventMousedown);
                         window.removeEventListener('mouseup', eventMouseup);
-                        $interval.cancel(interval);
+                        fsUtil.clearInterval('drawer-resize');
                     });
 
                     $scope.actionShow = function(action) {
