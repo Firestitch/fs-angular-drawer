@@ -12,6 +12,7 @@
                                 sideTemplateUrl: 'views/drawerside.html',
                                 controller: 'DrawerCtrl',
                                 id: 'first-drawer',
+                                //openOnCreate: false,
                                 resolve: {
                                     test: function() {
                                         return "TEST!";
@@ -59,15 +60,15 @@
 
          $scope.thridInstance = fsDrawer
                                 .create({   templateUrl: 'views/demo.html',
-                                            });
+                                            openOnCreate: false });
 
     setTimeout(function() {
         $scope.secondInstance = fsDrawer
                             .create({   templateUrl: 'views/drawersecond.html',
-                                        });
+                                        openOnCreate: false });
 
 
-    },1000);
+    },4000);
 
     $scope.toggleAction = function() {
         showAction = !showAction;

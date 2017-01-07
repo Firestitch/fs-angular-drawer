@@ -317,7 +317,7 @@
                         $scope.options.load($scope);
                     }
 
-                    if ($scope.options.openOnCreate) {
+                    if ($scope.options.openOnCreate || $scope.options.openOnCreate===undefined) {
                         $scope.instance.open();
                     }
 
