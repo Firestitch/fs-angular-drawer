@@ -254,19 +254,9 @@
                         throw 'fs-drawer options not set';
                     }
 
-                    $scope.sideClass = {};
-                    $scope.mainClass = {};
                     $scope.elDrawer = element;
 
                     var drawer = element[0].querySelector('.drawer');
-
-                    $scope.$watch('options.sideClass', function(value) {
-                        $scope.sideClass[$scope.options.sideClass] = !!value;
-                    });
-
-                    $scope.$watch('options.mainClass', function(value) {
-                        $scope.mainClass[$scope.options.mainClass] = !!value;
-                    });
 
                     $scope.drawerStyle = {};
                     $scope.sideDrawerStyle = {};
@@ -513,13 +503,13 @@ angular.module('fs-angular-drawer').run(['$templateCache', function($templateCac
     "\n" +
     "        </div>\r" +
     "\n" +
-    "        <div resizable r-directions=\"['right']\" r-flex=\"true\" ng-style=\"sideDrawerStyle\" id=\"fs-pane-side\" class=\"pane-side\" ng-class=\"sideClass\">\r" +
+    "        <div resizable r-directions=\"['right']\" r-flex=\"true\" ng-style=\"sideDrawerStyle\" id=\"fs-pane-side\" class=\"pane-side {{sideClass}}\">\r" +
     "\n" +
     "            <div class=\"fs-drawer-wrap\"></div>\r" +
     "\n" +
     "        </div>\r" +
     "\n" +
-    "        <div flex class=\"pane-main\" ng-class=\"mainClass\">\r" +
+    "        <div class=\"flex pane-main {{mainClass}}\">\r" +
     "\n" +
     "            <div class=\"fs-drawer-wrap\"></div>\r" +
     "\n" +

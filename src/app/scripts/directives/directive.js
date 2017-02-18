@@ -253,19 +253,9 @@
                         throw 'fs-drawer options not set';
                     }
 
-                    $scope.sideClass = {};
-                    $scope.mainClass = {};
                     $scope.elDrawer = element;
 
                     var drawer = element[0].querySelector('.drawer');
-
-                    $scope.$watch('options.sideClass', function(value) {
-                        $scope.sideClass[$scope.options.sideClass] = !!value;
-                    });
-
-                    $scope.$watch('options.mainClass', function(value) {
-                        $scope.mainClass[$scope.options.mainClass] = !!value;
-                    });
 
                     $scope.drawerStyle = {};
                     $scope.sideDrawerStyle = {};
