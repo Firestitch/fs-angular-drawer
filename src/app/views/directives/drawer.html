@@ -6,7 +6,7 @@
                 <md-tooltip md-direction="{{tooltipDirection}}">Close</md-tooltip>
                 </md-icon>
             </a>
-            <a href ng-click="actionClick(action)" class="drawer-action {{action.class}}" ng-repeat="action in options.actions" ng-show="actionShow(action, $event)" ng-class="{ selected: action.selected }">
+            <a href ng-click="actionClick(action)" class="drawer-action {{action.class}}" ng-repeat="action in options.actions" ng-show="action.show" ng-class="{ selected: action.selected }">
                 <md-icon>{{action.icon}}
                     <md-tooltip md-direction="{{tooltipDirection}}">{{action.tooltip}}</md-tooltip>
                 </md-icon>

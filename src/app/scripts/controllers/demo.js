@@ -4,7 +4,7 @@
 angular.module('app')
   .controller('DemoCtrl', function ($scope, fsDrawer,$q) {
 
-    var showAction = false;
+    $scope.showAction = false;
     $scope.action = false;
 
     $scope.instance = fsDrawer
@@ -29,6 +29,7 @@
                                 },
                                 actions: [
                                     {
+                                        name: 'related',
                                         icon: 'share',
                                         tooltip: 'Related',
                                         click: function() {
@@ -37,11 +38,10 @@
                                         }
                                     },
                                     {
+                                        name: 'properties',
                                         icon: 'toc',
                                         tooltip: 'Properties',
-                                        show: function($scope) {
-                                            return showAction;
-                                        },
+                                        show: false,
                                         click: function() {
                                             this.class = 'action-class';
                                             $scope.instance.openSide();
@@ -71,7 +71,15 @@
     },4000);
 
     $scope.toggleAction = function() {
-        showAction = !showAction;
+        $scope.instance.toggleAction('properties');
+    }
+
+    $scope.showAction = function() {
+        $scope.instance.showAction('properties');
+    }
+
+    $scope.hideAction = function() {
+        $scope.instance.hideAction('properties');
     }
 
     $scope.refresh = function() {

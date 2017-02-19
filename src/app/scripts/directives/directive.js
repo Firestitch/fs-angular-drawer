@@ -13,8 +13,8 @@
      * @ngdoc service
      * @name fs.services:fsDrawerInstance
      */
-    angular.module('fs-angular-drawer', ['fs-angular-store', 'angularResizable'])
-        .directive('fsDrawer', function(fsStore, $http, $compile, $q, $controller, $templateCache, $window) {
+    angular.module('fs-angular-drawer', ['fs-angular-store', 'fs-angular-array', 'angularResizable'])
+        .directive('fsDrawer', function(fsStore, $http, $compile, $q, $controller, $templateCache, $window, fsArray) {
             return {
                 restrict: 'E',
                 templateUrl: 'views/directives/drawer.html',
@@ -171,6 +171,29 @@
                         });
                     }
 
+                    function visibilityAction(name, value) {
+                    	var action = fsArray.filter($scope.options.actions,{ name: name })[0];
+                    	if(action) {
+                    		if(value===undefined) {
+                    			action.show = !action.show;
+                    		} else {
+                    			action.show = value;
+                    		}
+                    	}
+                    }
+
+                    function showAction(name) {
+                    	visibilityAction(name,true);
+                    }
+
+                    function hideAction(name) {
+                    	visibilityAction(name,false);
+                    }
+
+                    function toggleAction(name) {
+                    	visibilityAction(name,undefined);
+                    }
+
                     function destroy() {
                     	$scope.$destroy();
                     	$scope.elDrawer.remove();
@@ -185,7 +208,10 @@
                         isOpen: isOpen,
                         refresh: refresh,
                         toggleSide: toggleSide,
-                        destroy: destroy
+                        destroy: destroy,
+                        toggleAction: toggleAction,
+                        hideAction: hideAction,
+                        showAction: showAction
                     });
 
                     angular.extend(scope, $scope.options.scope);
@@ -224,6 +250,10 @@
                     $scope.options.actions = $scope.options.actions || [];
                     angular.forEach($scope.options.actions, function(action) {
                         action.select = angular.bind(null, selectAction, action);
+
+                        if(action.show===undefined) {
+                        	action.show = true;
+                        }
                     });
 
                 },
@@ -259,14 +289,6 @@
 
                     $scope.drawerStyle = {};
                     $scope.sideDrawerStyle = {};
-
-                    $scope.actionShow = function(action) {
-                        if (action.show) {
-                            return action.show($scope);
-                        }
-
-                        return true;
-                    }
 
                     $scope.resize = function() {
                     	setTimeout(function() {

@@ -91,7 +91,6 @@ $scope.open = function() {
             $scope.instance = {};
             $scope.options = options;
 
-
             container = angular.element('<fs-drawer-container>')
                                 .attr('id',id)
                                 .data('instance',$scope.instance);
