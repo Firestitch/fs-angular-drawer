@@ -212,7 +212,8 @@
                         destroy: destroy,
                         toggleAction: toggleAction,
                         hideAction: hideAction,
-                        showAction: showAction
+                        showAction: showAction,
+                        visibilityAction: visibilityAction
                     });
 
                     angular.extend(scope, $scope.options.scope);
