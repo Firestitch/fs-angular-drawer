@@ -21,6 +21,13 @@ html.fs-drawer-active {
     overflow: auto !important;
 }
 
+fs-drawer {
+    display: none;
+}
+
+fs-drawer.fs-drawer-open {
+    display: block;
+}
 
 fs-drawer .resizable {
     position: relative;
@@ -115,7 +122,7 @@ fs-drawer .drawer {
     border-right: 1px solid #efefef;
     top: 0;
     bottom: 0;
-    right: -10000px;
+    right: 0px;
     z-index: 60;
     background-color: #fff;
     min-width: 350px;

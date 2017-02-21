@@ -116,7 +116,6 @@
 
                             angular.element($scope.elDrawer).addClass('fs-drawer-open');
                             angular.element(document.querySelector('html')).addClass('fs-pane-side-active');
-                            $scope.drawerStyle.right = 0;
                         }
 
                         $scope.calculateTooltip();
@@ -131,7 +130,7 @@
                      */
                     function close() {
                         angular.element(document.querySelector('html')).removeClass('fs-pane-side-active');
-                        $scope.drawerStyle.right = '-5000px';
+                        angular.element($scope.elDrawer).removeClass('fs-drawer-open');
                     }
 
                     /**

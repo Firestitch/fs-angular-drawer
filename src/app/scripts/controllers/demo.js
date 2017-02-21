@@ -12,7 +12,7 @@
                                 sideTemplateUrl: 'views/drawerside.html',
                                 controller: 'DrawerCtrl',
                                 id: 'first-drawer',
-                                //openOnCreate: false,
+                                openOnCreate: false,
                                 resolve: {
                                     test: function() {
                                         return "TEST!";
