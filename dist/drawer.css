@@ -133,8 +133,6 @@ fs-drawer .drawer .drawer-actions .drawer-action {
 
 fs-drawer .drawer .drawer-actions {
     border-right: 1px solid #efefef;
-    z-index: 2;
-    position: relative;
 }
 
 fs-drawer .drawer .drawer-actions .selected md-icon {
