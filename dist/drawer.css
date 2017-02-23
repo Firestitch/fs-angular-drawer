@@ -42,7 +42,7 @@ fs-drawer .rg-left,
 fs-drawer .rg-top,
 fs-drawer .rg-bottom {
     display: block;
-    width: 14px;
+    width: 35px;
     height: 14px;
     line-height: 14px;
     position: absolute;
@@ -69,7 +69,7 @@ fs-drawer .rg-left span {
     border-width: 0 1px;
     top: 50%;
     margin-top: -10px;
-    margin: -10px 0 0 3.5px;
+    margin: -10px 0 0 14px;
     height: 20px;
     width: 7px;
 }
@@ -112,7 +112,6 @@ fs-drawer .rg-left {
     height: 100%;
     left: 0;
     top: 0;
-    margin-left: -14px;
 }
 
 fs-drawer .drawer {
@@ -128,16 +127,14 @@ fs-drawer .drawer {
     min-width: 350px;
 }
 
-fs-drawer .drawer .rg-left {
-    margin-left: 9px;
-}
-
 fs-drawer .drawer .drawer-actions .drawer-action {
   text-decoration: none;
 }
 
 fs-drawer .drawer .drawer-actions {
     border-right: 1px solid #efefef;
+    z-index: 2;
+    position: relative;
 }
 
 fs-drawer .drawer .drawer-actions .selected md-icon {
@@ -150,6 +147,7 @@ fs-drawer .drawer .drawer-actions md-icon {
     position: relative;
     z-index: 99;
     padding: 5px;
+    background: #fff;
 }
 
 fs-drawer .drawer .drawer-actions a:first-child md-icon {
@@ -190,7 +188,7 @@ fs-drawer.fs-drawer-side-open .drawer {
 }
 
 fs-drawer .drawer .pane-side .rg-right {
-    margin-right: -24px;
+    margin-right: -35px;
 }
 
 fs-drawer .drawer-actions {

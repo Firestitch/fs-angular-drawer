@@ -51,7 +51,7 @@
                                         icon: 'delete',
                                         tooltip: 'Remove',
                                         click: function($scope) {
-
+                                        	debugger;
                                         }
                                     },
                                 ],
