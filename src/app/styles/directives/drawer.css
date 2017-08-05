@@ -123,7 +123,7 @@ fs-drawer .drawer {
     top: 0;
     bottom: 0;
     right: 0px;
-    z-index: 60;
+    z-index: 75;
     background-color: #fff;
     min-width: 350px;
 }
